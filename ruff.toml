@@ -1,0 +1,9 @@
+﻿target-version = "py313"
+line-length = 100
+
+[lint]
+select = ["E", "F", "I", "B", "BLE", "UP", "RUF"]
+
+[lint.per-file-ignores]
+"backend/src/api/**/*.py" = ["B008"]
+"backend/tests/**/*.py" = ["RUF001"]

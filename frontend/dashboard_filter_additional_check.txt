@@ -1,0 +1,336 @@
+﻿
+================================================================================
+.\src\features\dashboard\components\DashboardContent.tsx
+================================================================================
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import { Alert, Box } from "@mui/material";
+
+import { AppHeader } from "@/components/layout/AppHeader";
+import { AppSidebar } from "@/components/layout/AppSidebar";
+import { CsvUploadModal } from "@/features/analysis/components/CsvUploadModal";
+import { AiChatDrawer } from "@/features/chat/components/AiChatDrawer";
+import { getReports } from "@/features/reports/api/get-reports";
+import { ReportDetailModal } from "@/features/reports/components/ReportDetailModal";
+import { ReportList } from "@/features/reports/components/ReportList";
+import type {
+  Report,
+  ReportGenerationResponse,
+  ReportListItemResponse,
+  ReportStatus,
+  VibrationAnalysisResponse,
+} from "@/features/reports/types/report";
+import { layoutTokens } from "@/theme/tokens";
+
+import { useMeasurements } from "../hooks/useMeasurements";
+import { DashboardHeader } from "./DashboardHeader";
+import { MonitoringSummary } from "./MonitoringSummary";
+import { VibrationChart } from "./VibrationChart";
+
+function toDisplayStatus(status: string): ReportStatus {
+  if (status === "normal") return "正常";
+  if (status === "requires_attention") return "異常";
+  return "注意";
+}
+
+function formatDate(value: string): string {
+  return value.slice(0, 10).replaceAll("-", "/");
+}
+
+function formatPeriod(value: string | null): string {
+  if (!value) return "測定日未設定";
+  const [year, month] = value.split("-");
+  return `${year}年${Number(month)}月`;
+}
+
+function toReportListItemFromApi(item: ReportListItemResponse): Report {
+  return { id: item.id, uploadedFileId: item.uploaded_file_id, date: formatDate(item.created_at), period: formatPeriod(item.measurement_date), file: item.original_filename, status: toDisplayStatus(item.status), anomalyCount: `${item.anomaly_count}件`, equipmentId: item.equipment_id, createdBy: "開発ユーザー" };
+}
+
+
+function toReportListItem(
+  result: ReportGenerationResponse,
+): Report {
+  return {
+    id: result.report.id,
+    uploadedFileId: result.report.uploaded_file_id,
+    date: formatDate(result.report.created_at),
+    period: formatPeriod(result.report.measurement_date),
+    file: "アップロード済みCSV",
+    status: toDisplayStatus(result.report.status),
+    anomalyCount: `${result.analysis.anomaly_count}件`,
+    equipmentId: result.report.equipment_id,
+    createdBy: "開発ユーザー",
+    generatedReport: result,
+  };
+}
+
+export function DashboardContent() {
+  const [chatOpen, setChatOpen] = useState(true);
+  const [uploadOpen, setUploadOpen] = useState(false);
+  const [reports, setReports] = useState<Report[]>([]);
+  const [reportListError, setReportListError] = useState<Error | null>(null);
+  const [selectedReport, setSelectedReport] =
+    useState<Report | null>(null);
+  const [generatedReport, setGeneratedReport] =
+    useState<ReportGenerationResponse | null>(null);
+  const [latestAnalysis, setLatestAnalysis] =
+    useState<VibrationAnalysisResponse | null>(null);
+
+  const loadReports = useCallback(async () => {
+    try { const items = await getReports(); setReports(items.map(toReportListItemFromApi)); setReportListError(null); }
+    catch (error) { setReportListError(error instanceof Error ? error : new Error("レポート一覧を取得できませんでした。")); }
+  }, []);
+
+  useEffect(() => { void loadReports(); }, [loadReports]);
+
+  const {
+    data: measurementData,
+    error: measurementError,
+    isLoading: isMeasurementsLoading,
+    load: loadMeasurements,
+  } = useMeasurements();
+
+  const handleUploadCompleted = useCallback(
+    (result: ReportGenerationResponse) => {
+      setGeneratedReport(result);
+      setLatestAnalysis(result.analysis);
+      setReports((current) => [
+        toReportListItem(result),
+        ...current.filter(
+          (item) =>
+            item.id !== result.report.id,
+        ),
+      ]);
+      setUploadOpen(false);
+      void loadReports();
+
+      const thresholdValue =
+        result.report.threshold_value ??
+        result.analysis.threshold_value;
+
+      void loadMeasurements({
+        uploadedFileId: result.report.uploaded_file_id,
+        thresholdValue,
+      });
+    },
+    [loadMeasurements, loadReports],
+  );
+
+  const handleSelectReport = useCallback((report: Report) => {
+    if (report.generatedReport) {
+      setSelectedReport(null);
+      setGeneratedReport(report.generatedReport);
+      setLatestAnalysis(report.generatedReport.analysis);
+      return;
+    }
+
+    setGeneratedReport(null);
+    setSelectedReport(report);
+  }, []);
+
+  const handleCloseReportDetail = useCallback(() => {
+    setSelectedReport(null);
+    setGeneratedReport(null);
+  }, []);
+
+  return (
+    <Box
+      sx={{
+        height: "100dvh",
+        bgcolor: "background.default",
+        overflow: "hidden",
+      }}
+    >
+      <AppHeader onOpenChat={() => setChatOpen(true)} />
+      <AppSidebar />
+
+      <Box
+        component="main"
+        sx={{
+          position: "fixed",
+          top: layoutTokens.headerHeight,
+          bottom: 0,
+          left: layoutTokens.navigationWidth,
+          right: chatOpen ? layoutTokens.aiDrawerWidth : 0,
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          sx={{
+            height: "100%",
+            p: "13px 24px 18px",
+            display: "grid",
+            gridTemplateRows:
+              "30px minmax(190px, 31vh) minmax(0, 1fr)",
+            gap: 1.5,
+          }}
+        >
+          <DashboardHeader
+            onOpenUpload={() => setUploadOpen(true)}
+          />
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: ".72fr 1.28fr",
+              gap: 1.5,
+              minHeight: 0,
+            }}
+          >
+            <MonitoringSummary analysis={latestAnalysis} />
+            <VibrationChart
+              data={measurementData}
+              isLoading={isMeasurementsLoading}
+            />
+          </Box>
+
+          <ReportList
+            reports={reports}
+            onSelect={handleSelectReport}
+          />
+        </Box>
+      </Box>
+
+      {reportListError && (
+        <Alert severity="error" sx={{ position: "fixed", left: layoutTokens.navigationWidth + 24, bottom: 24, zIndex: 1500, maxWidth: 440 }}>
+          {reportListError.message}
+        </Alert>
+      )}
+
+      {measurementError && (
+        <Alert
+          severity="error"
+          sx={{
+            position: "fixed",
+            right: chatOpen
+              ? layoutTokens.aiDrawerWidth + 24
+              : 24,
+            bottom: 24,
+            zIndex: 1500,
+            maxWidth: 440,
+          }}
+        >
+          {measurementError.message}
+        </Alert>
+      )}
+
+      <CsvUploadModal
+        open={uploadOpen}
+        onClose={() => setUploadOpen(false)}
+        onCompleted={handleUploadCompleted}
+      />
+
+      <ReportDetailModal
+        report={selectedReport}
+        generatedReport={generatedReport}
+        onClose={handleCloseReportDetail}
+      />
+
+      <AiChatDrawer
+        key={[
+          generatedReport?.report.equipment_id ?? "no-equipment",
+          generatedReport?.report.measurement_date ?? "no-date",
+        ].join(":")}
+        open={chatOpen}
+        onClose={() => setChatOpen(false)}
+        equipmentId={
+          generatedReport?.report.equipment_id ?? null
+        }
+        measurementDate={
+          generatedReport?.report.measurement_date ?? null
+        }
+      />
+    </Box>
+  );
+}
+
+================================================================================
+.\src\features\dashboard\types\measurement.ts
+================================================================================
+export type MeasurementPoint = {
+  measured_at: string;
+  vibration_value: number;
+  is_anomaly: boolean;
+};
+
+export type MeasurementDataResponse = {
+  uploaded_file_id: string;
+  equipment_id: string;
+  measurement_date: string | null;
+  measurement_count: number;
+  threshold_value: number;
+  measurements: MeasurementPoint[];
+};
+
+export type GetMeasurementsInput = {
+  uploadedFileId: string;
+  thresholdValue: number;
+};
+
+================================================================================
+.\src\features\dashboard\api\get-measurements.ts
+================================================================================
+import { apiRequest } from "@/lib/api/client";
+import { apiPaths } from "@/lib/api/paths";
+import { ApiError } from "@/lib/errors/api-error";
+
+import type {
+  GetMeasurementsInput,
+  MeasurementDataResponse,
+} from "../types/measurement";
+
+
+export async function getMeasurements(
+  input: GetMeasurementsInput,
+  signal?: AbortSignal,
+): Promise<MeasurementDataResponse> {
+  const uploadedFileId =
+    input.uploadedFileId.trim();
+
+  if (!uploadedFileId) {
+    throw new ApiError({
+      message: (
+        "アップロード済みCSVのIDが"
+        + "指定されていません。"
+      ),
+      status: null,
+      detail: null,
+    });
+  }
+
+  if (
+    !Number.isFinite(input.thresholdValue)
+    || input.thresholdValue <= 0
+  ) {
+    throw new ApiError({
+      message: (
+        "異常判定の閾値には"
+        + "0より大きい数値を"
+        + "指定してください。"
+      ),
+      status: null,
+      detail: null,
+    });
+  }
+
+  const query = new URLSearchParams({
+    threshold_value:
+      String(input.thresholdValue),
+  });
+
+  const path = (
+    `${apiPaths.measurements(
+      uploadedFileId,
+    )}?${query.toString()}`
+  );
+
+  return apiRequest<MeasurementDataResponse>(
+    path,
+    {
+      method: "GET",
+      signal,
+    },
+  );
+}

@@ -1,0 +1,4 @@
+﻿-r requirements.txt
+
+pandas-stubs==3.0.5.260914
+types-reportlab==5.0.0.20260911
