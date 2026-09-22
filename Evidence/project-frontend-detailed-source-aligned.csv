@@ -1,0 +1,918 @@
+﻿"処理No.","タスク名（大項目）","タスク名（中項目）","タスク詳細","ディレクトリ名","ディレクトリ詳細","ファイル名","ファイル詳細","メソッドクラス詳細","単体テスト","結合テスト"
+"043","Frontend基盤構築","Next.js App Router初期化","Next.js App Router初期化を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/app","Next.js App Router初期化に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・frontend/src/app/layout.tsx
+　→責務: Root LayoutとしてThemeRegistryと共通HTMLを適用する。
+・frontend/src/app/(dashboard)/page.tsx
+　→責務: Dashboard RouteでDashboardContentを表示する。","Next.js App Router初期化を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/app/layout.tsx】
+・RootLayout（Component）
+　→Application共通Layoutを返す。
+【frontend/src/app/(dashboard)/page.tsx】
+・Page（Component）
+　→DashboardContentを表示する。","・Render Smoke
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Metadata
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・型
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・next dev
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・next build
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"044","Frontend基盤構築","MUI Theme構築","MUI Theme構築を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/theme","MUI Theme構築に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・frontend/src/theme/theme.ts
+　→責務: appThemeを定義する。
+・frontend/src/theme/tokens.ts
+　→責務: Color、Gradient、Layout Tokenを定義する。
+・frontend/src/theme/ThemeRegistry.tsx
+　→責務: ThemeProviderとCssBaselineを適用する。
+・frontend/src/theme/mui.d.ts
+　→責務: MUI Theme型を拡張する。","MUI Theme構築を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/theme/theme.ts】
+・appTheme（定数）
+　→MUI Theme Instance。
+【frontend/src/theme/tokens.ts】
+・colorTokens（定数）
+　→Color Token。
+・gradientTokens（定数）
+　→Gradient Token。
+・layoutTokens（定数）
+　→Layout Token。
+【frontend/src/theme/ThemeRegistry.tsx】
+・ThemeRegistry（Component）
+　→ThemeProviderを子要素へ適用する。","・Token値
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Provider
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・型
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Layout配下MUI描画
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"045","Frontend基盤構築","共通API Path管理","共通API Path管理を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/lib/api","共通API Path管理に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・paths.ts
+　→責務: Backend APIの固定PathとID付きPath生成を一元管理する。","共通API Path管理を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/lib/api/paths.ts】
+・apiPaths（定数Object）
+　→health、files、reports、reportGenerate、search、chatと、reportPdf/measurements Helperを提供する。","・固定Path
+　（特殊文字を含むIDやFilenameを与え、安全なPath生成とTraversal防止を確認する。）
+・ID
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Encode
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・各Feature API共通利用
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"046","Frontend基盤構築","共通API Client","共通API Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/lib/api","共通API Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・client.ts
+　→責務: fetch、Base URL、Header、JSON解析、Error変換、AbortSignalを共通化する。","共通API Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/lib/api/client.ts】
+・buildApiUrl（関数）
+　→NEXT_PUBLIC_API_BASE_URLとPathを結合しSlashを正規化する。
+・apiRequest（非同期関数）
+　→JSON/FormData/AbortSignalを扱いHTTP通信とApiError変換を行う。
+・readErrorDetail（内部関数）
+　→Error Responseからdetailを安全に読み取る。","・GET/POST
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・JSON/No Content
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・HTTP
+　（各StatusのResponseをMockし、Status、detail、Messageの変換が正しいことを確認する。）
+・Network
+　（fetchをrejectさせ、Network Errorが共通ApiErrorまたはUI Errorへ変換されることを確認する。）
+・Abort
+　（進行中RequestをAbortし、不要なError表示や遅延Response反映が起きないことを確認する。）","・Feature API→Backend契約
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"047","Frontend基盤構築","ApiError設計","ApiError設計を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/lib/errors","ApiError設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・api-error.ts
+　→責務: HTTP Status、利用者向けMessage、detail、causeを保持する共通Error型を提供する。","ApiError設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/lib/errors/api-error.ts】
+・ApiError（クラス）
+　→status、detail、causeを持つ共通Error。
+・missingBaseUrl（静的メソッド）
+　→Base URL未設定Errorを生成する。
+・networkError（静的メソッド）
+　→Network Errorを生成する。
+・fromHttpStatus（静的メソッド）
+　→HTTP StatusとDetailからErrorを生成する。
+・parseErrorDetail（関数）
+　→FastAPIのdetail文字列または422配列を解析する。
+・resolveUserMessage（内部関数）
+　→Status別の利用者向けMessageを解決する。","・Status Message
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・既存Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・非Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・cause
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・API Client→Hook→UI
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"048","Frontend API構築","Health API Client","Health API Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/health/services","Health API Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・get-health.ts
+　→責務: Health Endpointを呼び、statusとserviceを型付きで返す。","Health API Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【get-health.ts】
+・getHealth（関数/メソッド）
+　→Health APIを呼び、接続状態Responseを返す。","・正常Response
+　（Mock Responseを与え、型、Field、Status、MappingがAPI契約と一致することを確認する。）
+・HTTP Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・Network Error
+　（fetchをrejectさせ、Network Errorが共通ApiErrorまたはUI Errorへ変換されることを確認する。）
+・不正Response
+　（Mock Responseを与え、型、Field、Status、MappingがAPI契約と一致することを確認する。）","・HealthStatus状態遷移
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"049","Frontend API構築","Measurement API Client","Measurement API Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/dashboard/api","Measurement API Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・get-measurements.ts
+　→責務: Measurement取得条件をQueryへ変換し、時系列データを取得する。","Measurement API Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/dashboard/api/get-measurements.ts】
+・getMeasurements（関数）
+　→Uploaded File IDとThresholdからMeasurement APIを呼ぶ。","・正常
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・Query
+　（条件有無や複数条件を与え、期待するSQL/URL Queryが組み立てられることを確認する。）
+・空
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・HTTP/Network
+　（fetchをrejectさせ、Network Errorが共通ApiErrorまたはUI Errorへ変換されることを確認する。）","・useMeasurements連携
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"050","Frontend API構築","CSV Upload API Client","CSV Upload API Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/analysis/api","CSV Upload API Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・upload-csv.ts
+　→責務: CSVとMetadataをFormDataへ格納し、Upload APIへ送信する。","CSV Upload API Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【upload-csv.ts】
+・uploadCsv（関数/メソッド）
+　→Fileと入力MetadataをFormDataへ詰めてUpload APIへ送信する。
+・FormData append（関数/メソッド）
+　→値追加。
+・ApiError変換（関数/メソッド）
+　→Error統一。","・FormData
+　（FormDataへFileとMetadataが正しいKey・値で追加されることを確認する。）
+・正常
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・400/409/422
+　（重複・競合状態を作り、Conflictとして再処理を防止することを確認する。）
+・Network
+　（fetchをrejectさせ、Network Errorが共通ApiErrorまたはUI Errorへ変換されることを確認する。）","・useCsvAnalysis→Upload API
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"051","Frontend API構築","Report生成API Client","Report生成API Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/reports/api","Report生成API Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・generate-report.ts
+　→責務: Uploaded File IDと分析条件を送信し、Report生成結果を取得する。","Report生成API Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【generate-report.ts】
+・generateReport（関数/メソッド）
+　→Upload済みFile IDと分析条件を送信し、Report生成結果を取得する。
+・Request body（関数/メソッド）
+　→条件組立。
+・ApiError変換（関数/メソッド）
+　→Error統一。","・正常
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・404/409/422/502
+　（対象なしResponseを与え、Not Foundとして処理されることを確認する。）
+・Mapping
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Hook Uploading→Generating→Success
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"052","Frontend API構築","Report一覧API Client","Report一覧API Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/reports/api","Report一覧API Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・get-reports.ts
+　→責務: BackendのReport一覧を取得し、Frontend表示用Report型へ変換する。","Report一覧API Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【get-reports.ts】
+・getReports（関数/メソッド）
+　→Report一覧APIを呼び、表示用配列を返す。
+・mapReport（関数/メソッド）
+　→Backend Report ResponseをFrontend Report型へ変換する。
+・Fallback（関数/メソッド）
+　→既定値。","・正常一覧
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・空
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・Mapping
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・HTTP
+　（各StatusのResponseをMockし、Status、detail、Messageの変換が正しいことを確認する。）","・Dashboard→ReportList
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"053","Frontend API構築","PDF Download API Client","PDF Download API Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/reports/api","PDF Download API Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・download-report-pdf.ts
+　→責務: PDF Blobを取得し、Filenameを解析してBrowser Downloadを開始し、Object URLを解放する。","PDF Download API Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/reports/api/download-report-pdf.ts】
+・downloadReportPdf（関数）
+　→PDF Responseを取得しContent-DispositionからFilenameを解決してBrowser Downloadを開始する。","・正常Blob
+　（PDF相当Blobを返し、Object URL生成、Download Click、URL解放までを確認する。）
+・Filename
+　（HeaderまたはMetadataから安全なFilenameが生成・表示されることを確認する。）
+・HTTP Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・非JSON
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・URL解放
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・PdfDownloadButtonからReport IDを渡してDownload状態を確認
+　（Report IDをButtonからAPIへ渡し、Pending、Blob取得、Download開始、完了状態を確認する。）"
+"054","Frontend API構築","Chat API Client","Chat API Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/chat/api","Chat API Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・frontend/src/features/chat/api/chat.ts
+　→責務: POST /api/v1/chatへRequestを送りAnswerとSourcesを取得する。","Chat API Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/chat/api/chat.ts】
+・sendRagChat（関数）
+　→Chat RequestとAbortSignalをapiRequestへ渡しResponseを返す。","・正常回答
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・Source
+　（複数のRAG Sourceを与え、Chunk Type、設備、日付、Similarityが正しく表示されることを確認する。）
+・Abort
+　（進行中RequestをAbortし、不要なError表示や遅延Response反映が起きないことを確認する。）
+・HTTP/Network
+　（fetchをrejectさせ、Network Errorが共通ApiErrorまたはUI Errorへ変換されることを確認する。）","・useRagChat→ChatMessage
+　（質問入力からRAG検索、AI回答、Message追加、Source表示までを確認する。）"
+"055","Frontend Hook構築","useMeasurements","useMeasurementsを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/dashboard/hooks","useMeasurementsに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・useMeasurements.ts
+　→責務: Measurement取得のLoading、Success、Error、Reset、多重実行防止を管理するHook。","useMeasurementsを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/dashboard/hooks/useMeasurements.ts】
+・useMeasurements（Hook）
+　→Measurement取得Stateと操作を提供する。
+・load（メソッド）
+　→getMeasurementsを実行してloading/success/errorを更新する。
+・reset（メソッド）
+　→Stateをidleへ戻す。
+・toApiError（内部関数）
+　→unknown ErrorをApiErrorへ変換する。","・初期
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Loading
+　（未完了Promiseを使い、処理中だけLoading表示と操作無効化が有効になることを確認する。）
+・成功
+　（依存処理を成功させ、結果Data、Success状態、後続Callbackが正しく反映されることを確認する。）
+・Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・多重
+　（処理中に同じ操作を再度実行し、APIやWorkflowが1回だけ呼ばれることを確認する。）
+・Reset
+　（成功または失敗後にresetを実行し、Data、Error、Progressが初期状態へ戻ることを確認する。）","・Dashboard→Hook→Chart/Summary
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"056","Frontend Hook構築","useCsvAnalysis","useCsvAnalysisを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/analysis/hooks","useCsvAnalysisに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・useCsvAnalysis.ts
+　→責務: CSV UploadとReport生成の2段階処理、進捗、Error、Resetを管理するHook。","useCsvAnalysisを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/analysis/hooks/useCsvAnalysis.ts】
+・useCsvAnalysis（Hook）
+　→CSV UploadとReport生成の2段階Stateを提供する。
+・execute（メソッド）
+　→uploadCsv後にgenerateReportを行いStateを更新する。
+・reset（メソッド）
+　→Stateをidleへ戻す。
+・toApiError（内部関数）
+　→unknown ErrorをApiErrorへ変換する。","・初期
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Uploading
+　（未完了Promiseを使い、処理中だけLoading表示と操作無効化が有効になることを確認する。）
+・Generating
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・成功
+　（依存処理を成功させ、結果Data、Success状態、後続Callbackが正しく反映されることを確認する。）
+・各失敗
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・多重
+　（処理中に同じ操作を再度実行し、APIやWorkflowが1回だけ呼ばれることを確認する。）
+・Reset
+　（成功または失敗後にresetを実行し、Data、Error、Progressが初期状態へ戻ることを確認する。）","・Modal→Hook→2 API→Dashboard
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"057","Frontend Hook構築","useRagChat","useRagChatを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/chat/hooks","useRagChatに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・useRagChat.ts
+　→責務: Chat Message、Pending、Abort、Error、Resetを管理するHook。","useRagChatを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/chat/hooks/useRagChat.ts】
+・useRagChat（Hook）
+　→Chat Message、Status、Errorを管理する。
+・send（メソッド）
+　→前回RequestをAbortしsendRagChatを実行してMessageを更新する。
+・reset（メソッド）
+　→Messageと状態を初期化する。
+・toError（内部関数）
+　→unknown値をErrorへ変換する。","・初期
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Pending
+　（Deferred Promiseで処理を保留し、Progress表示と二重操作防止を確認する。）
+・成功
+　（依存処理を成功させ、結果Data、Success状態、後続Callbackが正しく反映されることを確認する。）
+・Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・Abort
+　（進行中RequestをAbortし、不要なError表示や遅延Response反映が起きないことを確認する。）
+・Reset
+　（成功または失敗後にresetを実行し、Data、Error、Progressが初期状態へ戻ることを確認する。）","・Drawer→Input→Hook→List
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"058","Frontend Component構築","CSV Dropzone","CSV Dropzoneを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/analysis/components","CSV Dropzoneに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・CsvDropzone.tsx
+　→責務: CSV File Inputと選択Buttonを提供し、選択Fileを親Componentへ通知する。","CSV Dropzoneを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【CsvDropzone.tsx】
+・onChange（関数/メソッド）
+　→InputまたはFile選択の変更をState/Callbackへ反映する。
+・onSelect（関数/メソッド）
+　→選択されたFileまたはReportを親Componentへ通知する。","・案内
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・accept
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・File選択
+　（Test用FileをInputへ設定し、Filename、Type、Size、Callback引数を確認する。）
+・未選択
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・CsvUploadModal→Preview
+　（ダミーCSVを選択・送信し、保存、Measurement変換、分析、Report生成までを確認する。）"
+"059","Frontend Component構築","CSV File Preview","CSV File Previewを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/analysis/components","CSV File Previewに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・CsvFilePreview.tsx
+　→責務: 選択済みCSVのFilenameとFile Sizeを利用者へ表示する。","CSV File Previewを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【CsvFilePreview.tsx】
+・Math.ceil（関数/メソッド）
+　→KB切上げ。","・Filename
+　（HeaderまたはMetadataから安全なFilenameが生成・表示されることを確認する。）
+・0/1/1024/1025境界
+　（最小、最大、等値、直前、直後の値を与え、判定や丸めが仕様どおりであることを確認する。）","・Dropzone選択→Preview
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"060","Frontend Component構築","Analysis Progress","Analysis Progressを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/analysis/components","Analysis Progressに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・AnalysisProgress.tsx
+　→責務: CSV確認・分析中にMessageとProgress Indicatorを表示する。","Analysis Progressを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【AnalysisProgress.tsx】
+・active判定（関数/メソッド）
+　→表示制御。
+・progressbar（関数/メソッド）
+　→進捗表示。","・非表示
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Message
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Progress
+　（処理中にprogressbarと説明文が表示され、完了後に解除されることを確認する。）","・Hook状態→表示切替
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"061","Frontend Component構築","CSV Upload Modal","CSV Upload Modalを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/analysis/components","CSV Upload Modalに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・CsvUploadModal.tsx
+　→責務: CSV選択、入力条件、分析実行、進捗、Error、成功通知をModal内で統合する。","CSV Upload Modalを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/analysis/components/CsvUploadModal.tsx】
+・CsvUploadModal（Component）
+　→CSV入力Dialog全体を表示する。
+・resetForm（内部関数）
+　→入力とHook状態を初期化する。
+・close（内部関数）
+　→Reset後にDialogを閉じる。
+・handleThresholdChange（内部関数）
+　→Threshold入力を更新する。
+・handleExecute（内部関数）
+　→入力をuseCsvAnalysis.executeへ渡し成功時Callbackを呼ぶ。","・Validation
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Disabled
+　（無効条件を与え、Input/Buttonが操作不能でCallbackが呼ばれないことを確認する。）
+・Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・開閉
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Focus
+　（Modal/DrawerのOpen、Tab移動、Escape、Close後のFocus復帰を確認する。）","・File→Upload→Report→成功通知
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"062","Frontend Component構築","Chat Input","Chat Inputを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/chat/components","Chat Inputに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・ChatInput.tsx
+　→責務: 質問入力、Trim、Enter/Click送信、Disabled、Pending表示、Accessible Nameを管理する。","Chat Inputを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【ChatInput.tsx】
+・submit（関数/メソッド）
+　→入力文字列をTrimし、空文字やDisabledを除外してonSendを呼ぶ。
+・setMessage（関数/メソッド）
+　→入力保持。
+・slotProps.htmlInput（関数/メソッド）
+　→aria-label。","・空
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・入力
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Trim
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Click/Enter
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Disabled
+　（無効条件を与え、Input/Buttonが操作不能でCallbackが呼ばれないことを確認する。）
+・Progress
+　（処理中にprogressbarと説明文が表示され、完了後に解除されることを確認する。）
+・aria
+　（実DOM要素へaria属性が付き、Testing LibraryのRole/Name検索で取得できることを確認する。）","・Drawer→Hook
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"063","Frontend Component構築","Chat Message","Chat Messageを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/chat/components","Chat Messageに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・ChatMessage.tsx
+　→責務: User/Assistant MessageとRAG Source MetadataをRole別に表示する。","Chat Messageを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【ChatMessage.tsx】
+・isUser（関数/メソッド）
+　→Role判定。
+・chunkTypeLabels（関数/メソッド）
+　→Label。
+・map sources（関数/メソッド）
+　→Source表示。
+・toFixed（関数/メソッド）
+　→類似度。","・User
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Assistant Source
+　（複数のRAG Sourceを与え、Chunk Type、設備、日付、Similarityが正しく表示されることを確認する。）
+・未知Type
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・日付Fallback
+　（値欠損または非Error値を与え、既定値・既定Messageへ安全に置換されることを確認する。）
+・Sourceなし
+　（複数のRAG Sourceを与え、Chunk Type、設備、日付、Similarityが正しく表示されることを確認する。）","・MessageList表示
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"064","Frontend Component構築","Chat Message List","Chat Message Listを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/chat/components","Chat Message Listに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・ChatMessageList.tsx
+　→責務: Empty、Message一覧、回答生成中Progressを表示する。","Chat Message Listを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【ChatMessageList.tsx】
+・messages.map（関数/メソッド）
+　→一覧。
+・empty条件（関数/メソッド）
+　→Empty。
+・isPending（関数/メソッド）
+　→非同期処理中かを派生値として返し、二重操作防止に使用する。","・Empty
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・複数Message
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Pending
+　（Deferred Promiseで処理を保留し、Progress表示と二重操作防止を確認する。）
+・Empty+Pending
+　（Deferred Promiseで処理を保留し、Progress表示と二重操作防止を確認する。）","・useRagChat状態接続
+　（質問入力からRAG検索、AI回答、Message追加、Source表示までを確認する。）"
+"065","Frontend Component構築","AI Chat Drawer","AI Chat Drawerを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/chat/components","AI Chat Drawerに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・AiChatDrawer.tsx
+　→責務: Drawer開閉とChat Hook、Message List、Inputを統合する。","AI Chat Drawerを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/chat/components/AiChatDrawer.tsx】
+・AiChatDrawer（Component）
+　→Chat Drawer、Context、Message、Inputを統合する。
+・toMonthRange（内部関数）
+　→対象年月をBackend Filter用Date Rangeへ変換する。
+・handleSend（内部関数）
+　→質問とFilterをuseRagChat.sendへ渡す。","・Opening
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Error/Empty
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・Disabled
+　（無効条件を与え、Input/Buttonが操作不能でCallbackが呼ばれないことを確認する。）
+・Focus
+　（Modal/DrawerのOpen、Tab移動、Escape、Close後のFocus復帰を確認する。）","・Input→Hook→API→List
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"066","Frontend Component構築","PDF Download Button","PDF Download Buttonを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/reports/components","PDF Download Buttonに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・PdfDownloadButton.tsx
+　→責務: Report IDをPDF APIへ渡し、Pending、Disabled、Error Tooltipを管理する。","PDF Download Buttonを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【PdfDownloadButton.tsx】
+・handleDownload（関数/メソッド）
+　→DownloadのPending/Errorを管理しながらPDF APIを呼ぶ。
+・pending state（関数/メソッド）
+　→多重防止。
+・error state（関数/メソッド）
+　→Tooltip。","・IDなし
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・正常
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・Pending
+　（Deferred Promiseで処理を保留し、Progress表示と二重操作防止を確認する。）
+・Error/Fallback
+　（値欠損または非Error値を与え、既定値・既定Messageへ安全に置換されることを確認する。）","・Modal→Button→PDF API
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"067","Frontend Component構築","Report List Item","Report List Itemを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/reports/components","Report List Itemに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・ReportListItem.tsx
+　→責務: Report 1件の情報、Status、Fallback値、選択ButtonをTable Rowとして表示する。","Report List Itemを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【ReportListItem.tsx】
+・statusColors（関数/メソッド）
+　→色。
+・Fallback（関数/メソッド）
+　→設備/作成者。
+・onSelect（関数/メソッド）
+　→選択されたFileまたはReportを親Componentへ通知する。","・各Field
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Fallback
+　（値欠損または非Error値を与え、既定値・既定Messageへ安全に置換されることを確認する。）
+・3 Status
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Click
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・ReportList伝播
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"068","Frontend Component構築","Report List","Report Listを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/reports/components","Report Listに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・ReportList.tsx
+　→責務: 検索欄、Filter、Header、Report行、Pagination表示を一覧Componentとして構成する。","Report Listを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【ReportList.tsx】
+・reports.map（関数/メソッド）
+　→行生成。
+・labelDisplayedRows（関数/メソッド）
+　→Paginationに「総件数中 開始-終了件」を表示する。
+・onSelect（関数/メソッド）
+　→選択されたFileまたはReportを親Componentへ通知する。","・Title/Control/Header
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・一覧
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・空
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・件数
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・選択
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Dashboard→List→Modal
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"069","Frontend Component構築","Report Detail Modal","Report Detail Modalを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/reports/components","Report Detail Modalに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・ReportDetailModal.tsx
+　→責務: 選択Reportの分析・AI結果とPDF DownloadをModalへ表示する。","Report Detail Modalを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【ReportDetailModal.tsx】
+・open/close（関数/メソッド）
+　→Modal制御。
+・report mapping（関数/メソッド）
+　→詳細表示。
+・detail sections（関数/メソッド）
+　→Section構築。","・表示
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・各Section
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・長文
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・PDF
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Focus
+　（Modal/DrawerのOpen、Tab移動、Escape、Close後のFocus復帰を確認する。）","・List選択→Modal→PDF
+　（Report取得からPDF生成、HTTP返却、実File開封までを確認する。）"
+"070","Frontend Component構築","Health Status","Health Statusを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/health/components","Health Statusに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・health-status.tsx
+　→責務: Backend Healthを初回確認し、Loading、Success、Errorを表示する。","Health Statusを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/health/components/health-status.tsx】
+・HealthStatus（Component）
+　→Backend接続状態を表示する。
+・checkHealth（内部関数）
+　→getHealthを呼びStateをconnected/errorへ更新する。","・Loading
+　（未完了Promiseを使い、処理中だけLoading表示と操作無効化が有効になることを確認する。）
+・Success
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・非Error Fallback
+　（値欠損または非Error値を与え、既定値・既定Messageへ安全に置換されることを確認する。）","・実Backend停止/起動
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"071","Frontend Component構築","Dashboard Header","Dashboard Headerを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/dashboard/components","Dashboard Headerに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・DashboardHeader.tsx
+　→責務: Dashboard Titleと主要操作を上部に表示する。","Dashboard Headerを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【DashboardHeader.tsx】
+・Props表示（関数/メソッド）
+　→Title/条件。
+・操作Callback（関数/メソッド）
+　→親通知。","・Title/Label
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Button Role
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・DashboardContent接続
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"072","Frontend Component構築","Monitoring Summary","Monitoring Summaryを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/dashboard/components","Monitoring Summaryに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・MonitoringSummary.tsx
+　→責務: 最新値、平均、最大、異常件数、判定StatusをKPI表示する。","Monitoring Summaryを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【MonitoringSummary.tsx】
+・summary mapping（関数/メソッド）
+　→KPI表示。
+・status presentation（関数/メソッド）
+　→判定表示。","・正常/注意/異常
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・空
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・Fallback
+　（値欠損または非Error値を与え、既定値・既定Messageへ安全に置換されることを確認する。）
+・色非依存
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Measurement/Report→Summary
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"073","Frontend Component構築","Vibration Chart","Vibration Chartを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/dashboard/components","Vibration Chartに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・VibrationChart.tsx
+　→責務: 時系列振動値、閾値、異常点、Axis、Tooltip、単位をChart表示する。","Vibration Chartを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/dashboard/components/VibrationChart.tsx】
+・VibrationChart（Component）
+　→SVGで振動時系列を描画する。
+・formatTime（関数）
+　→X軸時刻を整形する。
+・formatValue（関数）
+　→振動値を整形する。
+・shouldShowTimeLabel（関数）
+　→X軸Label表示間隔を決める。
+・calculateMaximumValue（関数）
+　→Chart最大値を計算する。
+・createChartPoints（関数）
+　→Measurementを描画Pointへ変換する。
+・createPolylinePoints（関数）
+　→Polyline文字列を生成する。","・空
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・正常
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・異常
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・時系列
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Tooltip/単位
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・大量
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Measurement API→Hook→Chart
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"074","Frontend Component構築","Dashboard Content","Dashboard Contentを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/dashboard/components","Dashboard Contentに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・DashboardContent.tsx
+　→責務: DashboardのAPI、Hook、Chart、Summary、Modal、Report、Chatを統合するContainer。","Dashboard Contentを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend/src/features/dashboard/components/DashboardContent.tsx】
+・DashboardContent（Component）
+　→Dashboard全体を統合する。
+・toDisplayStatus（関数）
+　→Backend Statusを表示Statusへ変換する。
+・formatDate（関数）
+　→日付を表示形式へ変換する。
+・formatPeriod（関数）
+　→対象期間を表示形式へ変換する。
+・toReport（関数）
+　→一覧ResponseをUI Reportへ変換する。
+・toGeneratedReport（関数）
+　→生成ResponseをUI Reportへ変換する。
+・toAnalysis（関数）
+　→分析ResponseをUI分析型へ変換する。
+・initialize（内部関数）
+　→Report一覧と先頭ReportのMeasurementを初期取得する。","・初期Loading/Error
+　（未完了Promiseを使い、処理中だけLoading表示と操作無効化が有効になることを確認する。）
+・Modal/Drawer
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Refresh
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Empty
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・CSV→Report→更新
+　（ダミーCSVを選択・送信し、保存、Measurement変換、分析、Report生成までを確認する。）
+・Report→PDF
+　（Report取得からPDF生成、HTTP返却、実File開封までを確認する。）
+・Chat Flow
+　（質問入力からRAG検索、AI回答、Message追加、Source表示までを確認する。）"
+"075","Frontend品質構築","Vitest基盤","Vitest基盤を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend","Vitest基盤に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・vitest.config.mts
+　→責務: Vitest環境、対象File、Worker、Coverage、Thresholdを設定する。","Vitest基盤を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【vitest.config.mts】
+・defineConfig（関数/メソッド）
+　→Test環境。
+・coverage（関数/メソッド）
+　→対象。
+・thresholds（設定項目）
+　→Gate。","・Config Load
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Smoke
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・TypeScript
+　（tsc --noEmitを実行し、型ErrorなしでCompileできることを確認する。）","・24 Test Files連続実行
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"076","Frontend品質構築","Testing Library Setup","Testing Library Setupを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/tests","Testing Library Setupに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・setup.ts
+　→責務: jest-dom、Cleanup、Browser API Mock等を全Frontend Testへ適用する。","Testing Library Setupを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【setup.ts】
+・jest-dom（関数/メソッド）
+　→Matcher。
+・cleanup（関数/メソッド）
+　→失敗時の一時File、Object URL、途中生成物を削除する。
+・Browser Mock（関数/メソッド）
+　→URL等。","・Setup
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・DOM Matcher
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・複数Test汚染なし
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"077","Frontend品質構築","API Unit Test","API Unit Testを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/tests/unit","API Unit Testに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・paths.test.ts
+　→責務: 対象機能の正常系、異常系、境界値、状態遷移を自動検証し、回帰を防止する。
+・client.test.ts
+　→責務: 対象機能の正常系、異常系、境界値、状態遷移を自動検証し、回帰を防止する。
+・api tests
+　→責務: API Unit Testを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。
+・処理の流れ: paths.test.ts → client.test.ts → api tests
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","API Unit Testを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【paths.test.ts】
+・test functions（関数/メソッド）
+　→通信契約。
+・vi.fn（関数/メソッド）
+　→Mock fetch。","・Path 3件
+　（特殊文字を含むIDやFilenameを与え、安全なPath生成とTraversal防止を確認する。）
+・Client 10件
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・ApiError 19件
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・Feature API
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Hook→Mock API
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"078","Frontend品質構築","Hook Unit Test","Hook Unit Testを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/tests/unit/features","Hook Unit Testに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・use-rag-chat.test.ts
+　→責務: 対象機能の正常系、異常系、境界値、状態遷移を自動検証し、回帰を防止する。
+・use-measurements.test.ts
+　→責務: 対象機能の正常系、異常系、境界値、状態遷移を自動検証し、回帰を防止する。
+・use-csv-analysis.test.ts
+　→責務: 対象機能の正常系、異常系、境界値、状態遷移を自動検証し、回帰を防止する。
+・処理の流れ: use-rag-chat.test.ts → use-measurements.test.ts → use-csv-analysis.test.ts
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","Hook Unit Testを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【use-rag-chat.test.ts】
+・renderHook（関数/メソッド）
+　→Hook描画。
+・act（関数/メソッド）
+　→状態更新。
+・Deferred（関数/メソッド）
+　→Pending。
+・Mock API（関数/メソッド）
+　→依存分離。","・初期/Loading/Success/Error
+　（未完了Promiseを使い、処理中だけLoading表示と操作無効化が有効になることを確認する。）
+・Abort
+　（進行中RequestをAbortし、不要なError表示や遅延Response反映が起きないことを確認する。）
+・Reset
+　（成功または失敗後にresetを実行し、Data、Error、Progressが初期状態へ戻ることを確認する。）
+・多重
+　（処理中に同じ操作を再度実行し、APIやWorkflowが1回だけ呼ばれることを確認する。）
+・Progress
+　（処理中にprogressbarと説明文が表示され、完了後に解除されることを確認する。）","・親Component→Hook状態表示
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"079","Frontend品質構築","Component Unit Test","Component Unit Testを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/tests/unit/features","Component Unit Testに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・*.test.tsx
+　→責務: 対象機能の正常系、異常系、境界値、状態遷移を自動検証し、回帰を防止する。","Component Unit Testを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【*.test.tsx】
+・screen queries（関数/メソッド）
+　→DOM検索。
+・userEvent（関数/メソッド）
+　→操作。
+・fireEvent（関数/メソッド）
+　→Event。
+・act（関数/メソッド）
+　→非同期。
+・Mock child/API（関数/メソッド）
+　→分離。","・Loading/Empty/Error
+　（未完了Promiseを使い、処理中だけLoading表示と操作無効化が有効になることを確認する。）
+・Form/Click/Enter
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Disabled
+　（無効条件を与え、Input/Buttonが操作不能でCallbackが呼ばれないことを確認する。）
+・File
+　（Test用FileをInputへ設定し、Filename、Type、Size、Callback引数を確認する。）
+・Source
+　（複数のRAG Sourceを与え、Chunk Type、設備、日付、Similarityが正しく表示されることを確認する。）
+・Fallback
+　（値欠損または非Error値を与え、既定値・既定Messageへ安全に置換されることを確認する。）
+・Accessibility
+　（Role、Accessible Name、aria属性、Keyboard操作、Focus可能性を利用者視点で確認する。）","・親子Prop/Callback
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"080","Frontend品質構築","アクセシビリティ修正","アクセシビリティ修正を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src/features/chat/components","アクセシビリティ修正に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・ChatInput.tsx
+　→責務: 質問入力、Trim、Enter/Click送信、Disabled、Pending表示、Accessible Nameを管理する。","アクセシビリティ修正を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【ChatInput.tsx】
+・slotProps.htmlInput（関数/メソッド）
+　→inputへaria-label。
+・aria-label（関数/メソッド）
+　→Accessible Name。","・textbox Role/Name
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Disabled
+　（無効条件を与え、Input/Buttonが操作不能でCallbackが呼ばれないことを確認する。）
+・Keyboard
+　（Mouseを使わずTab、Enter、Space、Escapeで主要操作が完了することを確認する。）","・Drawer内Keyboard/Focus
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"081","Frontend品質構築","Coverage導入","Coverage導入を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend","Coverage導入に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・vitest.config.mts
+　→責務: Vitest環境、対象File、Worker、Coverage、Thresholdを設定する。
+・package.json
+　→責務: Frontend依存関係とdev、build、lint、type-check、test、coverage、check Scriptを管理する。
+・処理の流れ: vitest.config.mts → package.json
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","Coverage導入を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【vitest.config.mts】
+・coverage設定（関数/メソッド）
+　→V8/include/exclude。
+・test（関数/メソッド）
+　→coverage: 実行Script。","・Report生成
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・対象File
+　（Test用FileをInputへ設定し、Filename、Type、Size、Callback引数を確認する。）
+・生成物除外
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・141 Tests Coverage実行
+　（Embedding、pgvector検索、Filter、Similarity、Source生成を実Service間で確認する。）"
+"082","Frontend品質構築","Coverage Gate","Coverage Gateを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend","Coverage Gateに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・vitest.config.mts
+　→責務: Vitest環境、対象File、Worker、Coverage、Thresholdを設定する。","Coverage Gateを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【vitest.config.mts】
+・thresholds（設定項目）
+　→Statements40/Branches35/Functions30/Lines40。
+・Exit Code（関数/メソッド）
+　→合否。","・重複設定
+　（同一ID、Checksum、二重Click等を発生させ、重複登録・重複通信を防止することを確認する。）
+・TypeScript
+　（tsc --noEmitを実行し、型ErrorなしでCompileできることを確認する。）
+・Gate成功/失敗
+　（依存処理を成功させ、結果Data、Success状態、後続Callbackが正しく反映されることを確認する。）","・test:coverage Exit 0
+　（Embedding、pgvector検索、Filter、Similarity、Source生成を実Service間で確認する。）"
+"083","Frontend品質構築","ESLint・TypeScript・Build","ESLint・TypeScript・Buildを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend","ESLint・TypeScript・Buildに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・package.json
+　→責務: Frontend依存関係とdev、build、lint、type-check、test、coverage、check Scriptを管理する。
+・eslint.config.mjs
+　→責務: ESLint RuleとCoverage等の除外対象を定義する。
+・処理の流れ: package.json → eslint.config.mjs
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","ESLint・TypeScript・Buildを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【package.json】
+・npm run check（関数/メソッド）
+　→一括検証。
+・globalIgnores（関数/メソッド）
+　→coverage除外。","・ESLint 0
+　（Lint Toolを実行し、未使用Import、規約違反、危険な記述が0件であることを確認する。）
+・tsc
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・141 Tests
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Build
+　（Production Buildを実行し、全RouteとModuleがBuild可能であることを確認する。）","・全工程Exit 0
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"084","Frontend品質構築","Frontend品質実績確定","Frontend品質実績確定を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","Frontend品質実績確定に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・testing-strategy.md
+　→責務: Test Level、Automation、品質Baseline、Coverage Gate、Exit条件を記録する。
+・test-cases.md
+　→責務: 機能別Test Case、実装済み範囲、未実施範囲を記録する。
+・処理の流れ: testing-strategy.md → test-cases.md
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","Frontend品質実績確定を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【testing-strategy.md】
+・Baseline記録（関数/メソッド）
+　→24/141/Coverage。
+・実装済みTest（関数/メソッド）
+　→範囲。
+・未実施（関数/メソッド）
+　→課題。","・文書値照合
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Markdown
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・文書更新後check/coverage
+　（Embedding、pgvector検索、Filter、Similarity、Source生成を実Service間で確認する。）"
+"085","セキュリティ設計","PoC制約整理","PoC制約整理を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","PoC制約整理に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・security-requirements.md
+　→責務: 認証・認可、Secret、Upload、CORS、情報露出などのSecurity要件とGapを記録する。","PoC制約整理を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【security-requirements.md】
+・SEC-AUTH（関数/メソッド）
+　→認証。
+・SEC-AUTHZ（関数/メソッド）
+　→認可。
+・SEC-FILE（関数/メソッド）
+　→Upload。
+・SEC-LOG（関数/メソッド）
+　→情報露出。","・Secret
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Path traversal
+　（特殊文字を含むIDやFilenameを与え、安全なPath生成とTraversal防止を確認する。）
+・Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・CORS
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・未認証公開禁止
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Security Review
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"086","ドキュメント整備","テスト戦略更新","テスト戦略更新を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","テスト戦略更新に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・testing-strategy.md
+　→責務: Test Level、Automation、品質Baseline、Coverage Gate、Exit条件を記録する。","テスト戦略更新を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【testing-strategy.md】
+・品質基準（関数/メソッド）
+　→Baseline/Gate。
+・実行Command（関数/メソッド）
+　→再現手順。
+・Exit条件（関数/メソッド）
+　→完了判定。","・記載値
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Command
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・新規開発者再現
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"087","ドキュメント整備","テストケース更新","テストケース更新を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","テストケース更新に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・test-cases.md
+　→責務: 機能別Test Case、実装済み範囲、未実施範囲を記録する。","テストケース更新を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【test-cases.md】
+・TC ID（関数/メソッド）
+　→Trace。
+・実装範囲（関数/メソッド）
+　→完了。
+・未実施（関数/メソッド）
+　→課題。","・重複/欠落
+　（同一ID、Checksum、二重Click等を発生させ、重複登録・重複通信を防止することを確認する。）
+・実Test対応
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・受入基準Trace
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"088","Git・共有","初回Commit・Push","初回Commit・Pushを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。",".","初回Commit・Pushに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・Repository全体
+　→責務: 初回Commit・Pushを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","初回Commit・Pushを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【Repository全体】
+・git add（関数/メソッド）
+　→Stage。
+・git commit（関数/メソッド）
+　→確定。
+・git push（関数/メソッド）
+　→main共有。","・git status
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・remote
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・機密/生成物
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・GitHub Clone
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・CSV存在
+　（ダミーCSVを選択・送信し、保存、Measurement変換、分析、Report生成までを確認する。）"
+"089","他環境展開","Mac環境準備","【今後対応・未作成】Mac向けSetup文書とScriptを作成し、実Macで再現確認する。","docs / scripts","Mac環境準備に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・README.md
+・QUICKSTART.md
+・scripts/setup.sh","現行Source Bundleでは未作成または構築未完了。学習上の将来工程として記載する。","【README.md】
+・clone（関数/メソッド）
+　→取得。
+・env作成（関数/メソッド）
+　→設定。
+・venv/npm/docker（関数/メソッド）
+　→依存。
+・alembic（関数/メソッド）
+　→DB。","・Command
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・LF
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・実行権限
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Mac Clone→起動→Test
+　（MacでClone後、依存導入、環境設定、DB起動、Migration、Build、Testを一通り実行する。）"
+"090","疎通・受入確認","実データSmoke Flow","実データSmoke Flowを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","data / frontend / backend","実データSmoke Flowに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・ダミーCSV
+　→責務: 実データSmoke Flowを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。
+・各API・UI
+　→責務: 実データSmoke Flowを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。
+・処理の流れ: ダミーCSV → 各API・UI
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","実データSmoke Flowを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【ダミーCSV】
+・Upload（関数/メソッド）
+　→CSV登録。
+・Generate（関数/メソッド）
+　→分析/AI。
+・Search/Chat（関数/メソッド）
+　→RAG。
+・Download（関数/メソッド）
+　→PDF。","・既存Unit Suite
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・E2E相当手動Smoke
+　（Browser操作で主要業務Flowを開始から完了まで実行し、画面と保存結果を確認する。）
+・DB/UI/PDF/Source
+　（Report取得からPDF生成、HTTP返却、実File開封までを確認する。）"
+"091","今後対応","認証・認可","【今後対応】認証・認可と固定dev-user廃止。","backend / frontend","認証・認可に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・認証方式決定後のBackend/Frontendファイル","現行Source Bundleでは未作成または構築未完了。学習上の将来工程として記載する。","【今後設計】
+・authenticate（関数/メソッド）
+　→本人確認。
+・authorize resource（関数/メソッド）
+　→権限。
+・token refresh（関数/メソッド）
+　→更新。
+・current user（関数/メソッド）
+　→利用者。","・Token
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・未認証
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・権限外
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・ID差替え
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Login→業務Flow
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・利用者分離
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"092","今後対応","複合Component・E2E","【今後対応・未作成】複合Component TestとBrowser E2Eを追加する。","frontend/tests/e2e","複合Component・E2Eに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・frontend/tests/e2e（予定）","現行Source Bundleでは未作成または構築未完了。学習上の将来工程として記載する。","【今後設計】
+・E2E fixture（関数/メソッド）
+　→環境。
+・test data setup（関数/メソッド）
+　→Data。
+・browser actions（関数/メソッド）
+　→UI操作。","・複合Component
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・axe
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Chart
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・CSV→Report→PDF
+　（Report取得からPDF生成、HTTP返却、実File開封までを確認する。）
+・Chat
+　（質問入力からRAG検索、AI回答、Message追加、Source表示までを確認する。）
+・Retry
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Reload
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"093","今後対応","CI/CD","【今後対応・未作成】CI/CD Workflowを追加する。",".github/workflows","CI/CDに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・.github/workflows/ci.yml","現行Source Bundleでは未作成または構築未完了。学習上の将来工程として記載する。","【ci.yml】
+・backend job（関数/メソッド）
+　→Python品質。
+・frontend job（関数/メソッド）
+　→Node品質。
+・cache（関数/メソッド）
+　→高速化。
+・artifact（関数/メソッド）
+　→結果。
+・secret scan（関数/メソッド）
+　→機密。","・Workflow Syntax
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・意図的Fail
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Coverage
+　（Coverageを有効に全Testを実行し、対象範囲とThresholdを満たすことを確認する。）","・PR→CI
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Branch Protection
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"094","今後対応","運用・性能・Backup","【一部文書あり・構築未完了】監視、性能、Backup/Restore手順を実装・検証する。","docs / infra","運用・性能・Backupに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・docs/operations-requirements.md
+・runbook（予定）","現行Source Bundleでは未作成または構築未完了。学習上の将来工程として記載する。","【operations-requirements.md】
+・health/readiness（関数/メソッド）
+　→稼働。
+・metrics/logging（関数/メソッド）
+　→監視。
+・backup/restore（関数/メソッド）
+　→復旧。
+・retention（関数/メソッド）
+　→保持。","・Performance
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・障害注入
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Backup
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Restore Drill
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・停止復旧
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・同時処理
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"095","学習成果整理","構築・学習マトリクス","構築・学習マトリクスを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","構築・学習マトリクスに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・project-task-learning-matrix-part1.csv
+　→責務: 構築・学習マトリクスを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。
+・project-task-learning-matrix-part2.csv
+　→責務: 構築・学習マトリクスを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。
+・処理の流れ: project-task-learning-matrix-part1.csv → project-task-learning-matrix-part2.csv
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","構築・学習マトリクスを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【project-task-learning-matrix-part1.csv】
+・Task責務（関数/メソッド）
+　→学習整理。
+・File/Method対応（関数/メソッド）
+　→構造化。
+・Test Layer（関数/メソッド）
+　→品質整理。","・CSV列数
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・文字化け
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・連番
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・重複/欠落
+　（同一ID、Checksum、二重Click等を発生させ、重複登録・重複通信を防止することを確認する。）","・Repository構成照合
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Mac利用者レビュー
+　（MacでClone後、依存導入、環境設定、DB起動、Migration、Build、Testを一通り実行する。）"

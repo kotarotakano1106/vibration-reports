@@ -1,0 +1,760 @@
+﻿"処理No.","タスク名（大項目）","タスク名（中項目）","タスク詳細","ディレクトリ名","ディレクトリ詳細","ファイル名","ファイル詳細","メソッドクラス詳細","単体テスト","結合テスト"
+"001","企画・要件定義","PoC目的整理","PoC目的整理を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","PoC目的整理に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・requirements.md
+　→責務: 機能要件、非機能要件、PoC範囲、制約を管理する。後続の設計・実装・テストの判断基準になる。","PoC目的整理を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【requirements.md】
+・要件ID（関数/メソッド）
+　→機能と制約を識別。
+・優先度（関数/メソッド）
+　→Must/Should/Couldを設定。","・文書レビュー
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・トレーサビリティ
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・受入基準レビュー
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"002","企画・要件定義","受入基準定義","受入基準定義を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","受入基準定義に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・acceptance-criteria.md
+　→責務: 受入可否を判断できる観測可能な合格条件を管理する。要件とテスト結果を結び付ける。","受入基準定義を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【acceptance-criteria.md】
+・受入基準ID（関数/メソッド）
+　→要件とテストを関連付け。
+・期待結果（関数/メソッド）
+　→利用者視点の合格条件。","・文書レビュー
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・検証可能性
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・業務シナリオ確認
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"003","企画・要件定義","ユースケース設計","ユースケース設計を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","ユースケース設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・use-cases.md
+　→責務: 利用者操作、システム応答、代替フロー、例外フローを業務シナリオとして定義する。","ユースケース設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【use-cases.md】
+・基本フロー（関数/メソッド）
+　→正常操作を定義。
+・代替フロー（関数/メソッド）
+　→例外・分岐を定義。","・文書レビュー
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・前提条件
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・ユースケース結合確認
+　（関連Moduleを実際に接続し、Input、Output、Error、状態の受渡しを確認する。）"
+"004","アーキテクチャ設計","全体構成設計","全体構成設計を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","全体構成設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・architecture.md
+　→責務: Frontend、Backend、DB、AI、File Storageの責務と通信経路を定義する。","全体構成設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【architecture.md】
+・Presentation層（関数/メソッド）
+　→UI/API。
+・Application層（関数/メソッド）
+　→ユースケース。
+・Infrastructure層（関数/メソッド）
+　→DB/AI/File。","・責務レビュー
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・依存方向
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Frontend→Backend→DB→AI疎通
+　（親Component、Hook、APIを接続し、利用者操作から表示更新までを確認する。）"
+"005","アーキテクチャ設計","Backendディレクトリ設計","Backendディレクトリ設計を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend","Backendディレクトリ設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src
+　→責務: FastAPI本体。API、Core、DB、Model、Schema、Service、Repository、Workflowを格納する。
+・backend/tests
+　→責務: API、Unit、Integration Testを格納する。
+・backend/migrations
+　→責務: Alembic Migrationを格納する。
+・backend/scripts
+　→責務: 個別疎通確認用Scriptを格納する。","Backendはbackend/srcを実装Rootとし、Test、Migration、確認Scriptを別Directoryへ分離する。","【backend】
+・package構成（関数/メソッド）
+　→API/Service/Repository/Model/Schema/Workflowを分離。","・Import
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・循環依存
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・FastAPI起動
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"006","アーキテクチャ設計","Frontendディレクトリ設計","Frontendディレクトリ設計を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend/src","Frontendディレクトリ設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・frontend
+　→責務: Frontendディレクトリ設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。
+・src
+　→責務: Frontendディレクトリ設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。
+・処理の流れ: frontend → src
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","Frontendディレクトリ設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【frontend】
+・features（関数/メソッド）
+　→機能単位。
+・lib（関数/メソッド）
+　→共通処理。
+・theme（関数/メソッド）
+　→MUI設定。","・Import Alias
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・TypeScript
+　（tsc --noEmitを実行し、型ErrorなしでCompileできることを確認する。）","・Next.js Build
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"007","Git・構成管理","GitHubリポジトリ作成","GitHubリポジトリ作成を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。",".","GitHubリポジトリ作成に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・.gitignore
+　→責務: 機密情報、依存物、Cache、Coverage、Build生成物をGit管理対象から除外する。","GitHubリポジトリ作成を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【.gitignore】
+・git init/clone（関数/メソッド）
+　→Repository準備。
+・git add/commit（関数/メソッド）
+　→変更確定。
+・git push（関数/メソッド）
+　→origin共有。","・git check-ignore
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・git status
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・別環境Clone
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"008","Git・構成管理","環境変数テンプレート作成","【実装済み】共有用の.env.exampleはRepositoryに存在する。実Secretを含む.envやfrontend/.env.localはGitへ含めない。",".","環境変数テンプレート作成に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・.env.example
+　→責務: Backend、DB、Azure OpenAI等の環境変数名をSecretなしで共有する。
+・frontend/.env.example
+　→責務: FrontendのNEXT_PUBLIC_API_BASE_URL等を共有する。","環境変数テンプレート作成を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【.env.example】
+・Settings（関数/メソッド）
+　→必須変数を定義。
+・Secret（関数/メソッド）
+　→実値をGit外で管理。","・Secret走査
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・変数不足
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・クリーン環境起動
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"009","環境構築","Docker Compose設計","Docker Compose設計を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。",".","Docker Compose設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・docker-compose.yml
+　→責務: DBなどの依存Service、Port、Volume、Environment、Healthcheckを一括定義する。","Docker Compose設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【docker-compose.yml】
+・services（設定項目）
+　→DB等を定義。
+・volumes（設定項目）
+　→永続化。
+・healthcheck（設定項目）
+　→起動判定。","・docker compose config
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・環境変数
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Container起動停止
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Backend→DB疎通
+　（Test PostgreSQLへ保存・検索を行い、Schema、制約、Transaction、取得結果の整合を確認する。）"
+"010","環境構築","DB初期化スクリプト","DB初期化スクリプトを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","scripts","DB初期化スクリプトに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・init-db.sql
+　→責務: DB初回起動時にpgvector拡張など、Applicationが必要とする初期設定を適用する。","DB初期化スクリプトを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【init-db.sql】
+・CREATE EXTENSION（関数/メソッド）
+　→pgvectorを有効化。
+・初期権限（関数/メソッド）
+　→DB権限を設定。","・SQL構文
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・冪等性
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・空Volume初回起動
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"011","環境構築","Backend依存関係構築","Backend依存関係構築を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend","Backend依存関係構築に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/requirements.txt
+　→責務: Backend実行・開発依存を固定する。","Backend依存関係構築を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【requirements.txt】
+・pip install（関数/メソッド）
+　→依存導入。
+・Version pin（関数/メソッド）
+　→Version固定。","・Import Smoke
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・依存競合
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・仮想環境再構築
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"012","環境構築","Frontend依存関係構築","Frontend依存関係構築を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","frontend","Frontend依存関係構築に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・package.json
+　→責務: Frontend依存関係とdev、build、lint、type-check、test、coverage、check Scriptを管理する。
+・package-lock.json
+　→責務: npm依存関係の解決Versionを固定し、WindowsとMacで同じ依存Treeを再現する。
+・処理の流れ: package.json → package-lock.json
+　→上流Fileが入力・設定を作り、下流Fileが業務処理、永続化、表示または検証を担当する。","Frontend依存関係構築を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【package.json】
+・npm scripts（関数/メソッド）
+　→開発・品質Command。
+・package-lock（関数/メソッド）
+　→Version固定。","・npm ls
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・npm audit
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・npm ci
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Next.js起動
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"013","データベース設計","テーブル・ER設計","テーブル・ER設計を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","docs","テーブル・ER設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・database.md
+　→責務: Table、Column、PK/FK、制約、Index、Data保持方針を設計資料として管理する。","テーブル・ER設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【database.md】
+・UploadedFile（関数/メソッド）
+　→CSV管理。
+・Measurement（関数/メソッド）
+　→時系列値。
+・Report（関数/メソッド）
+　→分析結果。
+・ReportChunk（関数/メソッド）
+　→RAG単位。","・Modelレビュー
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・制約境界
+　（最小、最大、等値、直前、直後の値を与え、判定や丸めが仕様どおりであることを確認する。）","・CRUD結合
+　（関連Moduleを実際に接続し、Input、Output、Error、状態の受渡しを確認する。）
+・Transaction
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"014","データベース構築","SQLAlchemy Model作成","SQLAlchemy Model作成を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/models","SQLAlchemy Model作成に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/models/user.py
+　→責務: User Modelを定義する。
+・backend/src/models/uploaded_file.py
+　→責務: CSV File Metadataと処理Statusを定義する。
+・backend/src/models/report.py
+　→責務: 分析Reportを定義する。
+・backend/src/models/report_chunk.py
+　→責務: RAG ChunkとVECTOR(1536)を定義する。","現行ModelはUser、UploadedFile、Report、ReportChunkの4種類。CSV内の全測定値を保存するMeasurement Modelは存在しない。","【backend/src/models/user.py】
+・User（クラス）
+　→利用者情報を表すSQLAlchemy Model。
+【backend/src/models/uploaded_file.py】
+・UploadedFile（クラス）
+　→Upload CSVのMetadataとStatusを表す。
+【backend/src/models/report.py】
+・Report（クラス）
+　→分析結果とAI文章を表す。
+【backend/src/models/report_chunk.py】
+・ReportChunk（クラス）
+　→RAG検索単位とEmbeddingを表す。","・Model生成
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Constraint
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Relationship
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Repository→PostgreSQL
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Rollback
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"015","データベース構築","Alembic Migration作成","Alembic Migration作成を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/migrations","Alembic Migration作成に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・alembic.ini
+　→責務: Alembicの接続・Script Location等を設定する。
+・backend/migrations/env.py
+　→責務: Application ModelをAlembicへ接続する。
+・backend/migrations/versions/15a61de1c13e_create_initial_four_tables.py
+　→責務: User、UploadedFile、Report、ReportChunkの初期Schemaを作成する。","Alembic Migration作成を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/migrations/versions/15a61de1c13e_create_initial_four_tables.py】
+・upgrade（関数）
+　→初期4 TableとIndex、Constraintを作成する。
+・downgrade（関数）
+　→初期Schemaを安全な順序で削除する。","・Migration review
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Model差分
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・空DB upgrade head
+　（Test PostgreSQLへ保存・検索を行い、Schema、制約、Transaction、取得結果の整合を確認する。）
+・既存DB適用
+　（Test PostgreSQLへ保存・検索を行い、Schema、制約、Transaction、取得結果の整合を確認する。）"
+"016","Backend基盤構築","FastAPIアプリ初期化","FastAPIアプリ初期化を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src","FastAPIアプリ初期化に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/main.py
+　→責務: FastAPI Applicationを生成し、CORS、v1 Router、Root、Health Endpointを登録する。
+・backend/src/api/v1/router.py
+　→責務: files、reports、search、chat、measurements Routerを集約する。","FastAPIアプリ初期化を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/main.py】
+・root（関数）
+　→Root EndpointでApplication情報を返す。
+・health_check（関数）
+　→GET /healthで稼働状態を返す。
+【backend/src/api/v1/router.py】
+・api_router（Router）
+　→機能別Routerを/api/v1配下へ集約する。","・App生成
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Route一覧
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・CORS
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・TestClient
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Health/OpenAPI
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"017","Backend基盤構築","設定管理","設定管理を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/core","設定管理に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・config.py
+　→責務: 環境変数を型付き設定へ変換し、DB、AI、Storage、CORS設定を各層へ提供する。","設定管理を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【config.py】
+・Settings（関数/メソッド）
+　→環境変数型変換。
+・Validation（関数/メソッド）
+　→必須値検証。","・既定値
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・必須値不足
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・型変換
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・.env読込
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Docker連携
+　（Containerを起動し、Network、Environment、Volume、Healthcheck、Service間通信を確認する。）"
+"018","Backend基盤構築","DB Session管理","DB Session管理を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/db","DB Session管理に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/db/session.py
+　→責務: SQLAlchemy EngineとSession Factoryを管理する。
+・backend/src/db/dependencies.py
+　→責務: FastAPI DependencyとしてDB Sessionを提供する。
+・backend/src/db/base.py
+　→責務: SQLAlchemy Declarative Baseを定義する。","DB Session管理を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/db/session.py】
+・get_db_session（Generator関数）
+　→Sessionを生成し、完了時にCloseする。
+【backend/src/db/dependencies.py】
+・get_db_session（Dependency関数）
+　→APIへSessionを注入する。
+【backend/src/db/base.py】
+・Base（クラス）
+　→全ModelのDeclarative Base。","・Session生成/Close
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Dependency override
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・API→Repository→DB
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）
+・Rollback
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"019","API構築","Health API","Health APIを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src","Health APIに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/main.py
+　→責務: GET /health Endpointを直接定義する。独立したhealth.pyは存在しない。","Health APIを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/main.py】
+・health_check（関数）
+　→status=okとservice名を返す。","・Response Schema
+　（Mock Responseを与え、型、Field、Status、MappingがAPI契約と一致することを確認する。）
+・Status Code
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Frontend HealthStatus疎通
+　（親Component、Hook、APIを接続し、利用者操作から表示更新までを確認する。）"
+"020","ファイル・CSV構築","Upload API","Upload APIを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/api/v1","Upload APIに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/api/v1/files.py
+　→責務: POST /api/v1/filesを提供しFileService.save_csvへ委譲する。
+・backend/src/schemas/file_schema.py
+　→責務: Upload Response等を型定義する。","Upload APIを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/api/v1/files.py】
+・upload_csv_file（関数）
+　→multipart CSV、equipment_id、measurement_date、encodingを受けて保存結果を返す。","・正常CSV
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・空/列不足
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・MIME
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・重複
+　（同一ID、Checksum、二重Click等を発生させ、重複登録・重複通信を防止することを確認する。）
+・DB Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）","・API→FileService→Repository→Storage
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"021","ファイル・CSV構築","CSV検証・解析","【実装済み】CSV File本体をdata/uploadsへ保存し、必要時にCSVを読み込む。CSV内の全測定値を専用Tableへ保存しない。","backend/src/services","CSV検証・解析に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/services/file_service.py
+　→責務: Upload Fileの名前、拡張子、MIME、設備ID、Size、Checksum、保存、DB登録を担当する。
+・backend/src/services/csv_service.py
+　→責務: 保存済みCSVの読込、必須列、日時、数値、欠損を検証する。","FileServiceは物理FileとUploadedFile Metadataを管理し、CsvServiceは分析時にCSVをDataFrameへ読み込んで検証する。Measurement専用Tableへの保存は行わない。","【backend/src/services/file_service.py】
+・FileService（クラス）
+　→CSV File保存ユースケースを担当する。
+・save_csv（メソッド）
+　→File検証、Checksum重複確認、安全な保存、UploadedFile登録を行う。
+・_calculate_checksum（内部メソッド）
+　→SHA-256 Checksumを計算する。
+【backend/src/services/csv_service.py】
+・CsvService（クラス）
+　→CSVの読込と内容検証を担当する。
+・load（メソッド）
+　→保存済みCSVを読み込む。
+・validate（メソッド）
+　→必須列、日時、数値、欠損を検証する。","・Encoding
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・空行
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・不正日時
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・NaN
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Path
+　（特殊文字を含むIDやFilenameを与え、安全なPath生成とTraversal防止を確認する。）","・File保存とDB登録
+　（CSV本体がdata/uploadsへ保存され、UploadedFile MetadataがDBへ登録されることを確認する。）
+・分析時CSV読込
+　（Measurement APIや分析Graphが保存済みCSVを読み込み、時系列Responseまたは分析結果へ変換することを確認する。）"
+"022","ファイル・CSV構築","UploadedFile Repository","UploadedFile Repositoryを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/repositories","UploadedFile Repositoryに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/repositories/uploaded_file_repository.py
+　→責務: UploadedFileの作成、ID/保存名/Checksum検索、設備別一覧、Status更新、削除を担当する。","UploadedFile Repositoryを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/repositories/uploaded_file_repository.py】
+・UploadedFileRepository（クラス）
+　→UploadedFile DB操作を集約する。
+・create（メソッド）
+　→Metadataを追加してflush/refreshする。
+・get_by_id（メソッド）
+　→UUIDで取得する。
+・get_by_stored_filename（メソッド）
+　→保存File名で取得する。
+・get_by_checksum（メソッド）
+　→Checksumで重複検索する。
+・list_by_equipment_id（メソッド）
+　→設備単位で一覧取得する。
+・update_status（メソッド）
+　→処理Statusを更新する。
+・delete（メソッド）
+　→対象Recordを削除する。","・Mock Session
+　（外部依存をMockし、対象Unitの分岐と呼出契約だけを決定的に確認する。）
+・Not Found
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・重複
+　（同一ID、Checksum、二重Click等を発生させ、重複登録・重複通信を防止することを確認する。）","・PostgreSQL登録再取得
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Rollback
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"023","振動分析構築","統計分析Service","統計分析Serviceを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/services","統計分析Serviceに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/services/vibration_analysis_service.py
+　→責務: DataFrameから統計、Threshold超過、異常候補を計算する。","統計分析Serviceを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/services/vibration_analysis_service.py】
+・VibrationAnalysisService（クラス）
+　→振動値の決定的分析を担当する。
+・analyze（メソッド）
+　→件数、最小、最大、平均、中央値、標準偏差、異常候補等を返す。","・既知統計
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・空Data
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・境界
+　（最小、最大、等値、直前、直後の値を与え、判定や丸めが仕様どおりであることを確認する。）
+・標準偏差0
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・CSV Parser→Analysis→Report
+　（ダミーCSVを選択・送信し、保存、Measurement変換、分析、Report生成までを確認する。）"
+"024","振動分析構築","Measurement API","【実装済み】Uploaded File IDで保存CSVを読み込み、時系列Measurement Responseを返す。Measurement Tableは参照しない。","backend/src/api/v1","Measurement APIに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/api/v1/measurements.py
+　→責務: GET /api/v1/files/{uploaded_file_id}/measurementsを提供する。
+・backend/src/schemas/measurement_schema.py
+　→責務: Measurement Responseを型定義する。
+・backend/src/services/csv_service.py
+　→責務: 対象CSVを読み込んで検証する。","Measurement APIを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/api/v1/measurements.py】
+・get_measurements（関数）
+　→UploadedFileを取得し、保存CSVから測定値を読み込み、Threshold付きResponseを返す。
+・_resolve_csv_path（内部関数）
+　→許可されたUpload Directory内のCSV Pathを解決する。","・正常取得
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・空結果
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・不正日付
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Repository Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）","・API→Repository→DB
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）
+・Frontend契約
+　（親Component、Hook、APIを接続し、利用者操作から表示更新までを確認する。）"
+"025","LLM構築","Azure OpenAI Client","Azure OpenAI Clientを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/services","Azure OpenAI Clientに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・azure_openai_service.py
+　→責務: Azure OpenAIの文章生成とEmbedding呼出を共通化し、外部ErrorをApplication Errorへ変換する。","Azure OpenAI Clientを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【azure_openai_service.py】
+・generate_text（関数/メソッド）
+　→PromptをAzure OpenAIへ送信し、生成TextをApplication形式で返す。
+・create_embedding（関数/メソッド）
+　→TextをEmbedding Vectorへ変換し、pgvector保存・検索に利用する。
+・map_error（関数/メソッド）
+　→SDK固有Errorを利用者向けMessageと再試行判断を持つApplication Errorへ変換する。","・SDK Mock
+　（外部依存をMockし、対象Unitの分岐と呼出契約だけを決定的に確認する。）
+・Timeout
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Rate Limit
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・次元
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・実Azure接続
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Workflow呼出
+　（複数ServiceとRepositoryを順に実行し、状態遷移、保存結果、失敗時rollbackを確認する。）"
+"026","LLM構築","Prompt設計","【一部実装済み】RAG Chat Promptは専用File化済み。振動分析PromptはAzureOpenAIServiceのgenerate_vibration_analysis内で扱われるため、report_prompt.pyは存在しない。","backend/src/prompts / backend/src/services","Prompt設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/prompts/rag_chat_prompt.py
+　→責務: RAG Sourceと質問からChat入力を構築する。
+・backend/src/services/azure_openai_service.py
+　→責務: 振動分析用PromptとAzure OpenAI呼出を管理する。","Prompt設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/prompts/rag_chat_prompt.py】
+・build_rag_chat_input（関数）
+　→質問と検索Contextを根拠制約付き入力へ変換する。
+【backend/src/services/azure_openai_service.py】
+・generate_vibration_analysis（メソッド）
+　→統計分析結果からAI分析文章を生成する。","・必須値
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・数値保持
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・特殊文字
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Injection
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Mock LLM→Output Parser
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"027","レポート構築","Report生成Workflow","【実装済み】単一report_workflow.pyではなく、LangGraphのGraph、Node、Stateで分析・Report生成を構成する。","backend/src/workflows","Report生成Workflowに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/workflows/graphs/analysis_graph.py
+　→責務: 分析GraphのNode、Edge、終了条件を定義する。
+・backend/src/workflows/nodes/analysis_nodes.py
+　→責務: Upload確認、CSV読込、振動分析、AI分析を担当する。
+・backend/src/workflows/nodes/report_nodes.py
+　→責務: Report保存、Chunk構築、Embedding生成、完了Status更新を担当する。
+・backend/src/workflows/states/analysis_state.py
+　→責務: Graphの入力、途中状態、出力を型定義する。
+・backend/src/services/report_service.py
+　→責務: Graphを実行するReport生成ユースケースを提供する。","Report生成Workflowを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/workflows/graphs/analysis_graph.py】
+・build_analysis_graph（関数）
+　→AnalysisNodesとReportNodesを接続してGraphをCompileする。
+【backend/src/services/report_service.py】
+・ReportService（クラス）
+　→Report生成ユースケースを統括する。
+・generate_report（メソッド）
+　→重複確認後にAnalysis Graphを実行して結果を返す。","・Node正常/失敗
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・409
+　（重複・競合状態を作り、Conflictとして再処理を防止することを確認する。）
+・AI失敗
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・保存失敗
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Upload→Analysis→AI→Report→Chunk
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"028","レポート構築","Analysis Node","Analysis Nodeを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/workflows/nodes","Analysis Nodeに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/workflows/nodes/analysis_nodes.py
+　→責務: 分析Graph前半の業務処理を担当する。","Analysis Nodeを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/workflows/nodes/analysis_nodes.py】
+・AnalysisNodes（クラス）
+　→Upload確認からAI分析までのNodeを提供する。
+・load_uploaded_file（メソッド）
+　→UploadedFileと物理CSVを確認する。
+・check_existing_report（メソッド）
+　→既存Reportの重複を確認する。
+・mark_processing（メソッド）
+　→Upload Statusをprocessingへ更新する。
+・load_and_validate_csv（メソッド）
+　→CSVを読み込み検証する。
+・analyze_vibration（メソッド）
+　→Pythonで統計分析する。
+・generate_ai_analysis（メソッド）
+　→Azure OpenAIで分析文章を生成する。","・State遷移
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・測定値なし
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Service例外
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・境界
+　（最小、最大、等値、直前、直後の値を与え、判定や丸めが仕様どおりであることを確認する。）","・前後Node State受渡し
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"029","レポート構築","Report Node","Report Nodeを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/workflows/nodes","Report Nodeに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/workflows/nodes/report_nodes.py
+　→責務: 分析Graph後半のReport、Chunk、Embedding保存を担当する。","Report Nodeを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/workflows/nodes/report_nodes.py】
+・ReportNodes（クラス）
+　→Report永続化Nodeを提供する。
+・build_report_content（メソッド）
+　→分析結果からReport内容を構築する。
+・save_report（メソッド）
+　→Reportを保存する。
+・build_report_chunks（メソッド）
+　→RAG検索用Chunkを構築する。
+・generate_chunk_embeddings（メソッド）
+　→ChunkごとのEmbeddingを生成する。
+・save_report_chunks（メソッド）
+　→ChunkとVectorを保存する。
+・mark_completed（メソッド）
+　→処理完了Statusへ更新する。","・LLM Mock
+　（外部依存をMockし、対象Unitの分岐と呼出契約だけを決定的に確認する。）
+・欠損
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・外部Error
+　（依存処理を失敗させ、Error変換、利用者向けMessage、状態復旧が正しいことを確認する。）
+・Chunk Type
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Analysis→Report→Persistence
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"030","レポート構築","Report API","Report APIを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/api/v1","Report APIに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/api/v1/reports.py
+　→責務: 一覧、生成、PDF Downloadの3 Endpointを同一Routerで提供する。
+・backend/src/schemas/report_schema.py
+　→責務: Request/Response Schemaを定義する。","Report APIを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/api/v1/reports.py】
+・list_reports（関数）
+　→GET /api/v1/reportsで一覧を返す。
+・generate_report（関数）
+　→POST /api/v1/reports/generateでReportServiceを実行する。
+・download_report_pdf（関数）
+　→GET /api/v1/reports/{report_id}/pdfでPDFを返す。","・正常生成
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・404
+　（対象なしResponseを与え、Not Foundとして処理されることを確認する。）
+・409
+　（重複・競合状態を作り、Conflictとして再処理を防止することを確認する。）
+・422
+　（不正入力を与え、Validation Errorの項目とMessageが返ることを確認する。）
+・502
+　（AI等の外部Serviceを失敗させ、Bad Gateway相当のErrorへ変換されることを確認する。）
+・Schema
+　（正常・欠損・型違いDataを与え、Schema Validation結果を確認する。）","・API→Workflow→DB
+　（複数ServiceとRepositoryを順に実行し、状態遷移、保存結果、失敗時rollbackを確認する。）
+・Frontend契約
+　（親Component、Hook、APIを接続し、利用者操作から表示更新までを確認する。）"
+"031","レポート構築","Report Repository","Report Repositoryを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/repositories","Report Repositoryに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/repositories/report_repository.py
+　→責務: Reportの作成、ID/Upload ID検索、設備別/全件一覧、PDF情報更新、削除を担当する。","Report Repositoryを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/repositories/report_repository.py】
+・ReportRepository（クラス）
+　→Report DB操作を集約する。
+・create（メソッド）
+　→Reportを保存する。
+・get_by_id（メソッド）
+　→IDで取得する。
+・get_by_uploaded_file_id（メソッド）
+　→Upload File IDで取得する。
+・list_by_equipment_id（メソッド）
+　→設備別一覧を返す。
+・list_all_with_files（メソッド）
+　→Upload情報付き全件一覧を返す。
+・update_pdf_information（メソッド）
+　→PDF Path等を更新する。
+・delete（メソッド）
+　→Reportを削除する。","・Query
+　（条件有無や複数条件を与え、期待するSQL/URL Queryが組み立てられることを確認する。）
+・Not Found
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・並び順
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・重複
+　（同一ID、Checksum、二重Click等を発生させ、重複登録・重複通信を防止することを確認する。）","・PostgreSQL Repository
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・Transaction
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"032","PDF構築","PDF生成Service","PDF生成Serviceを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/services","PDF生成Serviceに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/services/report_pdf_service.py
+　→責務: ReportとSource CSVから日本語PDFと振動Chartを生成する。","PDF生成Serviceを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/services/report_pdf_service.py】
+・VibrationChart（クラス）
+　→PDF内の振動Chartを描画する。
+・draw（メソッド）
+　→CanvasへChartを描画する。
+・ReportPdfService（クラス）
+　→PDF生成を統括する。
+・generate（メソッド）
+　→Reportを取得しPDFを生成する。
+・_build_pdf（内部メソッド）
+　→ReportLab要素を組み立てる。","・日本語
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・長文
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・異常多数
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Path
+　（特殊文字を含むIDやFilenameを与え、安全なPath生成とTraversal防止を確認する。）
+・生成失敗
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・実PDF開封
+　（Report取得からPDF生成、HTTP返却、実File開封までを確認する。）
+・API Download
+　（Report IDをButtonからAPIへ渡し、Pending、Blob取得、Download開始、完了状態を確認する。）
+・複数OS
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"033","PDF構築","PDF API","PDF APIを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/api/v1","PDF APIに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/api/v1/reports.py
+　→責務: PDF Download EndpointもReport Router内に実装する。
+・backend/src/services/report_pdf_service.py
+　→責務: PDF生成を担当する。","PDF APIを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/api/v1/reports.py】
+・download_report_pdf（関数）
+　→ReportPdfService.generateを呼びPDF bytesを返す。
+【backend/src/services/report_pdf_service.py】
+・generate（メソッド）
+　→Report IDからPDFを生成する。","・正常Download
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・404
+　（対象なしResponseを与え、Not Foundとして処理されることを確認する。）
+・生成失敗
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Content-Type
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Filename
+　（HeaderまたはMetadataから安全なFilenameが生成・表示されることを確認する。）","・Repository→PDF Service→HTTP
+　（Report取得からPDF生成、HTTP返却、実File開封までを確認する。）"
+"034","RAG構築","Report Chunk設計","【実装済み】独立したchunk_service.pyは存在せず、ReportNodesがChunk構築と保存を行う。","backend/src/workflows/nodes / backend/src/models","Report Chunk設計に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/workflows/nodes/report_nodes.py
+　→責務: Report内容からChunkを構築しEmbeddingを生成・保存する。
+・backend/src/models/report_chunk.py
+　→責務: Chunk本文、種別、Metadata、VECTOR(1536)を定義する。","Report Chunk設計を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/workflows/nodes/report_nodes.py】
+・build_report_chunks（メソッド）
+　→Report内容を検索単位へ分割する。
+・generate_chunk_embeddings（メソッド）
+　→各ChunkのEmbeddingを生成する。
+・save_report_chunks（メソッド）
+　→ChunkをDBへ保存する。","・Chunk数
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・空Section
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・Metadata
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・長文
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Report生成後Chunk保存
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"035","RAG構築","Vector Repository","Vector Repositoryを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/repositories","Vector Repositoryに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/repositories/vector_repository.py
+　→責務: ReportChunkの作成・取得・類似検索・Report単位削除を担当する。","Vector Repositoryを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/repositories/vector_repository.py】
+・VectorRepository（クラス）
+　→pgvectorを利用するReportChunk DB操作を集約する。
+・create（メソッド）
+　→ChunkとEmbeddingを保存する。
+・get_by_report_and_index（メソッド）
+　→Report IDとChunk indexで取得する。
+・list_by_report_id（メソッド）
+　→ReportのChunk一覧を返す。
+・search_similar（メソッド）
+　→FilterとLimit付きSimilarity検索を行う。
+・delete_by_report_id（メソッド）
+　→Report配下Chunkを削除する。","・Query
+　（条件有無や複数条件を与え、期待するSQL/URL Queryが組み立てられることを確認する。）
+・Limit
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Filter
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・次元
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・空結果
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）","・pgvector実検索
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・JOIN
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"036","RAG構築","RAG Search Service","RAG Search Serviceを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/services","RAG Search Serviceに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/services/rag_search_service.py
+　→責務: 質問検証、Embedding生成、Vector検索、Similarity変換を担当する。","RAG Search Serviceを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/services/rag_search_service.py】
+・RagSearchService（クラス）
+　→RAG検索ユースケースを担当する。
+・search（メソッド）
+　→質問EmbeddingとFilterを使い類似Chunkを返す。
+・_validate_query（内部メソッド）
+　→質問を検証する。
+・_validate_limit（内部メソッド）
+　→Limitを検証する。
+・_validate_chunk_types（内部メソッド）
+　→Chunk Typeを検証する。
+・_validate_date_range（内部メソッド）
+　→Date Rangeを検証する。
+・_to_similarity（内部メソッド）
+　→DistanceをSimilarityへ変換する。","・関連Chunk
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・閾値
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Filter
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・根拠なし
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・AI失敗
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Embedding→pgvector→Source
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"
+"037","RAG構築","Search API","Search APIを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/api/v1","Search APIに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/api/v1/search.py
+　→責務: POST /api/v1/searchを提供する。
+・backend/src/schemas/search_schema.py
+　→責務: Search Request/Responseを型定義する。","Search APIを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/api/v1/search.py】
+・search_reports（関数）
+　→RagSearchService.searchを呼び検索結果を返す。","・正常検索
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・空
+　（空配列、空文字、空File等を与え、仕様どおり拒否またはEmpty表示になることを確認する。）
+・不正Limit
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Filter
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・502
+　（AI等の外部Serviceを失敗させ、Bad Gateway相当のErrorへ変換されることを確認する。）","・Client→API→pgvector
+　（実際のRouter、Service、RepositoryまたはMock Serverを接続し、RequestからResponseまでの契約を確認する。）"
+"038","AIチャット構築","Chat Workflow","【実装済み】RAG Chatはrag_chat_graph.py、RagNodes、ChatStateで構成する。単一rag_chat_workflow.pyは存在しない。","backend/src/workflows","Chat Workflowに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/workflows/graphs/rag_chat_graph.py
+　→責務: RAG Chat GraphのNodeと分岐を定義する。
+・backend/src/workflows/nodes/rag_nodes.py
+　→責務: 検索、Context構築、回答生成、Source作成を担当する。
+・backend/src/workflows/states/chat_state.py
+　→責務: Chat Graphの入力、途中状態、出力を型定義する。
+・backend/src/prompts/rag_chat_prompt.py
+　→責務: RAG Chat入力を構築する。","Chat Workflowを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/workflows/graphs/rag_chat_graph.py】
+・build_rag_chat_graph（関数）
+　→RagNodesを接続してChat GraphをCompileする。
+【backend/src/workflows/nodes/rag_nodes.py】
+・RagNodes（クラス）
+　→RAG Chat Nodeを提供する。
+・search_report_chunks（メソッド）
+　→関連Chunkを検索する。
+・build_context（メソッド）
+　→LLM用Contextを構築する。
+・generate_answer（メソッド）
+　→根拠付き回答を生成する。
+・build_no_results_answer（メソッド）
+　→根拠なし回答を構築する。
+・build_sources（メソッド）
+　→Source一覧を作る。","・根拠あり/なし
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Injection
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・取違え
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Timeout
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・Search→LLM→Chat Response
+　（質問入力からRAG検索、AI回答、Message追加、Source表示までを確認する。）"
+"039","AIチャット構築","Chat API","Chat APIを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/src/api/v1","Chat APIに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・backend/src/api/v1/chat.py
+　→責務: POST /api/v1/chatを提供する。
+・backend/src/schemas/chat_schema.py
+　→責務: Chat Request、Answer、Sourceを型定義する。
+・backend/src/workflows/graphs/rag_chat_graph.py
+　→責務: Chat Graphを実行する。","Chat APIを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【backend/src/api/v1/chat.py】
+・chat_with_reports（関数）
+　→RequestをChatStateへ変換しRAG Chat Graphを実行してResponseを返す。","・正常回答
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・根拠なし
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・400/422/502
+　（不正入力を与え、Validation Errorの項目とMessageが返ることを確認する。）
+・Source Schema
+　（複数のRAG Sourceを与え、Chunk Type、設備、日付、Similarityが正しく表示されることを確認する。）","・Frontend→API→RAG/LLM
+　（親Component、Hook、APIを接続し、利用者操作から表示更新までを確認する。）"
+"040","Backend品質構築","pytest共通Fixture","pytest共通Fixtureを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/tests","pytest共通Fixtureに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・conftest.py
+　→責務: Test DB、Session、Client、Mock AI、Sample Dataを再利用可能なFixtureとして提供する。","pytest共通Fixtureを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【conftest.py】
+・db_session fixture（関数/メソッド）
+　→Test DB。
+・client fixture（関数/メソッド）
+　→TestClient。
+・mock_ai fixture（関数/メソッド）
+　→AI Mock。
+・sample_csv fixture（関数/メソッド）
+　→Test Data。","・Fixture生成
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Rollback
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・環境分離
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）","・全Suite共有
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）
+・本番DB非接続
+　（Test PostgreSQLへ保存・検索を行い、Schema、制約、Transaction、取得結果の整合を確認する。）"
+"041","Backend品質構築","Backend自動テスト整備","Backend自動テスト整備を実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","backend/tests","Backend自動テスト整備に関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・test_*.py
+　→責務: 対象機能の正常系、異常系、境界値、状態遷移を自動検証し、回帰を防止する。","Backend自動テスト整備を実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【test_*.py】
+・test functions（関数/メソッド）
+　→Arrange/Act/Assert。
+・Mock（関数/メソッド）
+　→外部依存分離。","・Ruff
+　（Ruffを実行し、PythonのLint・Format規約違反がないことを確認する。）
+・mypy
+　（mypyを実行し、型不整合やOptionalの誤使用がないことを確認する。）
+・pytest 330件
+　（対象処理へ代表入力と境界・異常入力を与え、戻り値、状態、依存呼出、Error処理が仕様どおりであることを確認する。）
+・Coverage 97.43%
+　（Coverageを有効に全Testを実行し、対象範囲とThresholdを満たすことを確認する。）","・Test DB
+　（Test PostgreSQLへ保存・検索を行い、Schema、制約、Transaction、取得結果の整合を確認する。）
+・CSV→Report
+　（ダミーCSVを選択・送信し、保存、Measurement変換、分析、Report生成までを確認する。）
+・RAG Chat
+　（質問入力からRAG検索、AI回答、Message追加、Source表示までを確認する。）
+・PDF
+　（Report取得からPDF生成、HTTP返却、実File開封までを確認する。）"
+"042","Backend品質構築","品質検証スクリプト","品質検証スクリプトを実務的な順序で設計・実装し、後続工程が再利用できる成果物を作成する。入力、処理、出力、例外、設定、確認手順を明確にする。想定工数はTask規模に応じて1～24時間程度とし、外部Serviceや複合Workflowは追加時間を見込む。","scripts","品質検証スクリプトに関係するSource、設定、Test、文書を配置し、責務ごとに変更範囲を追跡できるようにする。","・test-backend.ps1
+　→責務: Ruff、mypy、pytest、Coverageを順に実行し、失敗をExit Codeで通知する。","品質検証スクリプトを実現する主要成果物。上流の設定・入力を受け、対象処理を実行し、後続処理または検証へ結果を渡す。","【test-backend.ps1】
+・Command実行（関数/メソッド）
+　→Ruff/mypy/pytest。
+・Exit Code（関数/メソッド）
+　→失敗伝播。
+・Coverage（関数/メソッド）
+　→Gate確認。","・Script正常/失敗
+　（有効な入力とMock Responseを与え、期待する戻り値、状態更新、呼出引数になることを確認する。）
+・Coverage
+　（Coverageを有効に全Testを実行し、対象範囲とThresholdを満たすことを確認する。）","・クリーン環境全品質検証
+　（関連Moduleを実際に接続し、前段の出力が後段へ正しく渡り、最終結果と失敗時の整合性が保たれることを確認する。）"

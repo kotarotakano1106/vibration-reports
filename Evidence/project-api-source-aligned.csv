@@ -1,0 +1,453 @@
+﻿"機能No.","API機能名","機能概要","関連ファイル・担当処理","メソッド・処理フロー","API入力","API出力","DB・保存先","正常系","異常系","単体テスト","結合テスト","関連処理No."
+"API-HEALTH-001","Backend Health確認","FrontendからGET /healthを呼び、Backendの稼働状態を確認して確認中、接続成功、接続失敗を表示する。DB、RAG、Azure OpenAIは使用しない。","1. frontend/src/features/health/components/health-status.tsx
+・初回Render後のHealth確認とloading、connected、error表示を担当する。
+2. frontend/src/features/health/services/get-health.ts
+・NEXT_PUBLIC_API_BASE_URLへ/healthを付加し、GET Requestを直接送信する。
+3. frontend/src/features/health/types/health.ts
+・Health Responseの型を定義する。
+4. backend/src/main.py
+・GET /healthをhealth_check関数で提供する。","1. HealthStatus.checkHealth
+・getHealthを呼び、成功時はconnected、失敗時はerrorへ更新する。
+2. getHealth
+・GET /healthをcache:no-storeで呼び、JSONをHealthResponseとして返す。
+3. health_check
+・statusとserviceを返す。
+4. HealthStatus
+・結果を接続状態表示へ反映する。","・入力なし
+・NEXT_PUBLIC_API_BASE_URL","・status
+・service","DB保存なし。Backend Processの稼働確認のみ。","・確認中表示後にstatusとserviceを表示する","・Base URL未設定、HTTP Error、Network Error時は接続失敗を表示する
+・Error以外のthrow値は既定Messageへ変換する","・get-health.test.ts: 正常Response、HTTP Error、Network Errorを確認する
+・health-status.test.tsx: Loading、成功、Error、非Error Fallbackを確認する","・Frontendを起動し、Backend起動時と停止時でHealthStatus表示が切り替わることを確認する","019、048、070"
+"API-CSV-001","CSVアップロード","CSV Fileと設備情報をPOST /api/v1/filesへ送信する。BackendではFile名、拡張子、MIME、Size、設備ID、Checksumを検証し、CSV本体とUploadedFile Metadataを保存する。CSV全測定値はDBへ保存しない。","1. frontend/src/features/analysis/components/CsvUploadModal.tsx
+・CSV、設備ID、測定日、Encoding、Threshold、Weatherの入力と実行操作を担当する。
+2. frontend/src/features/analysis/components/CsvDropzone.tsx
+・CSV File選択を担当する。
+3. frontend/src/features/analysis/components/CsvFilePreview.tsx
+・選択File名とSizeを表示する。
+4. frontend/src/features/analysis/hooks/useCsvAnalysis.ts
+・UploadとReport生成の2段階Stateを管理する。
+5. frontend/src/features/analysis/api/upload-csv.ts
+・FormDataを作成しPOST /api/v1/filesを呼ぶ。
+6. frontend/src/lib/api/client.ts
+・apiRequestでFormData通信とApiError変換を行う。
+7. frontend/src/lib/api/paths.ts
+・apiPaths.filesを提供する。
+8. backend/src/api/v1/files.py
+・upload_csv_fileでmultipart Requestを受け、開発用Userを取得してFileServiceへ渡す。
+9. backend/src/services/file_service.py
+・File検証、Checksum計算、安全な保存、UploadedFile登録を行う。
+10. backend/src/repositories/uploaded_file_repository.py
+・UploadedFile Metadataの作成、重複検索、Status更新を行う。
+11. backend/src/schemas/file_schema.py
+・FileUploadResponse等を定義する。","1. CsvUploadModal.handleExecute
+・入力をuseCsvAnalysis.executeへ渡す。
+2. useCsvAnalysis.execute
+・状態をuploadingへ変更しuploadCsvを呼ぶ。
+3. uploadCsv
+・file、equipment_id、measurement_date、encodingをFormDataへ格納する。
+4. apiRequest
+・POST /api/v1/filesへFormDataを送信する。
+5. upload_csv_file
+・Requestを読み込みFileService.save_csvを呼ぶ。
+6. FileService.save_csv
+・File検証、SHA-256重複確認、data/uploadsへの保存、UploadedFile登録を行う。
+7. UploadedFileRepository.create
+・MetadataをDBへ保存する。
+8. Frontend Response
+・Uploaded File IDをuseCsvAnalysisへ返してReport生成へ進む。","・file: CSV File
+・equipment_id: 設備ID
+・measurement_date: 任意の日付
+・encoding: 既定UTF-8","・Uploaded File ID
+・Original/Stored Filename
+・Equipment ID
+・Measurement Date
+・Encoding
+・Size
+・Checksum
+・Status
+・Created At","・data/uploads: CSV本体
+・uploaded_filesテーブル: File MetadataとStatus
+・usersテーブル: 現在はdev-user取得に使用
+・測定値専用Table: なし","・201 CreatedでUpload情報を返す
+・Upload成功後にReport生成処理へ進む","・File名なし、拡張子、MIME、空File、Size、設備ID不正を拒否する
+・同一Checksumは409 Conflict
+・開発用Userなし、保存失敗、DB失敗をErrorへ変換する
+・失敗時に不要FileやDB変更を残さない","・upload-csv.test.ts: FormData、Path、Response、Errorを確認する
+・use-csv-analysis.test.ts: uploading、引数、多重実行、Upload失敗を確認する
+・test_files_api.py: StatusとError Mappingを確認する
+・test_file_service.py / test_file_service_save.py: File検証、Checksum、保存、Cleanupを確認する","・CsvUploadModalからBackend API、FileService、Repositoryまで接続し、CSV本体とUploadedFile Metadataが整合することを確認する","020、021、022、050、056、058、059、060、061"
+"API-REPORT-001","AIレポート生成","Upload済みCSVをPOST /api/v1/reports/generateへ渡し、LangGraphでCSV読込、振動分析、Azure OpenAI分析、Report保存、Chunk構築、Embedding保存を行う。","1. frontend/src/features/analysis/hooks/useCsvAnalysis.ts
+・Upload成功後にgeneratingへ遷移しgenerateReportを呼ぶ。
+2. frontend/src/features/reports/api/generate-report.ts
+・uploaded_file_id、threshold_value、weatherを送信する。
+3. backend/src/api/v1/reports.py
+・generate_report Endpointと例外のHTTP変換を担当する。
+4. backend/src/services/report_service.py
+・重複確認とAnalysis Graph実行を統括する。
+5. backend/src/workflows/graphs/analysis_graph.py
+・AnalysisNodesとReportNodesの実行順を定義する。
+6. backend/src/workflows/nodes/analysis_nodes.py
+・Upload確認、CSV読込・検証、振動分析、AI分析を担当する。
+7. backend/src/workflows/nodes/report_nodes.py
+・Report保存、Chunk構築、Embedding生成・保存、完了Status更新を担当する。
+8. backend/src/workflows/states/analysis_state.py
+・Graphの入力、途中状態、出力を型定義する。
+9. backend/src/services/vibration_analysis_service.py
+・決定的な統計分析を行う。
+10. backend/src/services/azure_openai_service.py
+・AI分析文章とEmbeddingを生成する。
+11. backend/src/repositories/report_repository.py
+・Reportを保存する。
+12. backend/src/repositories/vector_repository.py
+・ReportChunkとVectorを保存する。","1. useCsvAnalysis.execute
+・Upload結果を受けてgeneratingへ更新する。
+2. generateReport
+・POST /api/v1/reports/generateを呼ぶ。
+3. generate_report
+・ReportService.generate_reportを呼ぶ。
+4. ReportService.generate_report
+・既存Reportを確認しAnalysis Graphを実行する。
+5. AnalysisNodes
+・UploadedFile確認、CSV読込、VibrationAnalysis、AI分析を行う。
+6. ReportNodes
+・Report、Chunk、Embeddingを保存しStatusをcompletedへ更新する。
+7. Backend Response
+・ReportGenerationResponseを返す。
+8. useCsvAnalysis
+・successへ更新しDashboard側Callbackを呼ぶ。","・uploaded_file_id
+・threshold_value
+・weather","・Report ID
+・Status
+・Title/AI Analysis
+・Vibration Analysis
+・Equipment ID
+・Measurement Date等","・reportsテーブル
+・report_chunksテーブルとVECTOR(1536)
+・uploaded_files Status
+・保存CSVは読込対象であり測定値Tableは使用しない","・CSVを検証してPythonで統計分析する
+・AI分析後にReportとChunk/Embeddingを保存する
+・Frontendへ生成結果を返してDashboardを更新する","・Upload Record/物理CSVなしは404
+・同一UploadのReport済みは409
+・AI生成失敗は502
+・DB失敗は500
+・失敗時はRollbackしStatusを整合させる","・generate-report.test.ts: Request/Responseと404/409/422/502を確認する
+・use-csv-analysis.test.ts: uploading→generating→successと失敗を確認する
+・test_vibration_analysis_service.py: 統計・境界・空Dataを確認する
+・test_analysis_nodes.py / test_report_nodes.py: Node StateとAI Mock、Chunkを確認する
+・test_report_generation_api.py / test_report_service_integration.py: APIからGraph・DBまで確認する","・Upload済みダミーCSVを入力し、Analysis Graph、Azure OpenAI Mock、Report/Chunk/Vector保存、Frontend更新まで確認する","023、025、026、027、028、029、030、031、034、035、051、056、061、074"
+"API-MEASUREMENT-001","Measurement取得","Uploaded File IDを使ってGET /api/v1/files/{id}/measurementsを呼ぶ。BackendはUploadedFileと保存CSVを確認し、CSVから時系列測定値を読み込んでThreshold判定付きで返す。DBのMeasurement Tableは使用しない。","1. frontend/src/features/dashboard/components/DashboardContent.tsx
+・選択ReportのUploaded File IDでMeasurement読込を開始し、ChartとSummaryへ渡す。
+2. frontend/src/features/dashboard/hooks/useMeasurements.ts
+・load、reset、loading/success/errorを管理する。
+3. frontend/src/features/dashboard/api/get-measurements.ts
+・measurements Pathとthreshold_value Queryを組み立てる。
+4. backend/src/api/v1/measurements.py
+・get_measurementsでUploadedFileを取得し、保存CSVを読み込んでResponse化する。
+5. backend/src/services/csv_service.py
+・CSVをload/validateする。
+6. backend/src/schemas/measurement_schema.py
+・Measurement Responseを定義する。
+7. frontend/src/features/dashboard/components/VibrationChart.tsx
+・時系列、Threshold、異常点を表示する。
+8. frontend/src/features/dashboard/components/MonitoringSummary.tsx
+・選択Reportの分析KPIを表示する。","1. DashboardContent.displayReport
+・Selected ReportのuploadedFileIdをuseMeasurements.loadへ渡す。
+2. useMeasurements.load
+・loadingへ変更しgetMeasurementsを呼ぶ。
+3. getMeasurements
+・GET /api/v1/files/{id}/measurements?threshold_value=...を送る。
+4. get_measurements
+・UploadedFileを取得し、安全なCSV Pathを解決する。
+5. CsvService.load/validate
+・CSVから測定日時と振動値を読み込む。
+6. Response
+・Measurement一覧をFrontendへ返す。
+7. DashboardContent
+・VibrationChart等へDataを渡す。","・uploaded_file_id: Path Parameter
+・threshold_value: Query Parameter","・Uploaded File ID
+・Equipment ID
+・Threshold Value
+・Measurements: measured_at、vibration_value、is_anomaly","・uploaded_filesテーブル: CSV Metadata参照
+・data/uploads: CSV本体読込
+・measurementsテーブル: なし","・保存CSVの行を時系列Responseへ変換する
+・Threshold以上をis_anomaly=trueで返す
+・FrontendがChartへ描画する","・UploadedFileなし、CSVなしは404
+・CSV Validation失敗は400相当
+・不正UUID/Queryは422
+・FrontendはApiErrorを保持する","・get-measurements.test.ts: Path、Threshold、Response、Errorを確認する
+・use-measurements.test.ts: load、Pending、成功、Error、重複実行、resetを確認する
+・test_measurements_api.py: CSV読込、404、Validation、Responseを確認する","・DashboardContentからMeasurement APIへ接続し、保存CSVの値がVibrationChartへ表示されることを確認する","024、049、055、072、073、074"
+"API-REPORT-002","Report一覧取得","GET /api/v1/reportsで保存済みReportを新しい順に取得し、Frontend表示型へ変換してReportListへ表示する。専用のReport詳細取得APIは現行実装にない。","1. frontend/src/features/dashboard/components/DashboardContent.tsx
+・getReports結果とSelected Reportを管理する。
+2. frontend/src/features/reports/api/get-reports.ts
+・Report一覧APIを呼ぶ。
+3. frontend/src/features/reports/components/ReportList.tsx
+・Report一覧と件数表示を構成する。
+4. frontend/src/features/reports/components/ReportListItem.tsx
+・Report 1件と選択操作を表示する。
+5. backend/src/api/v1/reports.py
+・list_reportsでlimit/offsetを補正して一覧を返す。
+6. backend/src/repositories/report_repository.py
+・list_all_with_filesでReportとUploadedFileを取得する。","1. DashboardContent.loadReports
+・getReportsを呼ぶ。
+2. getReports
+・GET /api/v1/reportsを送る。
+3. list_reports
+・limitを1～500、offsetを0以上へ補正する。
+4. ReportRepository.list_all_with_files
+・ReportとFile情報を新しい順で取得する。
+5. DashboardContent.toReport
+・ResponseをUI Reportへ変換する。
+6. ReportList/ReportListItem
+・一覧表示し、選択時に既に取得済みDataをReportDetailModalへ渡す。","・limit: 任意 Query
+・offset: 任意 Query","・Report ID
+・Uploaded File ID
+・Equipment ID
+・Measurement Date
+・Title
+・Anomaly Count
+・Status
+・Created By/At
+・Original Filename
+・Threshold Value","・reportsテーブル
+・uploaded_filesテーブルを一覧表示用に参照","・一覧を新しい順に返す
+・Frontendが表示型へ変換する
+・選択Reportを詳細Modalへ渡す","・DB失敗をErrorとして扱う
+・空一覧は空配列として表示する
+・limit/offsetは安全範囲へ補正する","・get-reports.test.ts: 一覧、空配列、Response、Errorを確認する
+・report-list.test.tsx / report-list-item.test.tsx: 表示、Fallback、選択を確認する
+・test_reports_api.py: limit/offsetと一覧Responseを確認する
+・test_report_repository.py: list_all_with_filesを確認する","・DashboardContentからAPI、Repositoryまで接続し、一覧選択後にModalとMeasurement取得へ連携することを確認する","030、031、052、067、068、069、074"
+"API-PDF-001","PDFダウンロード","GET /api/v1/reports/{report_id}/pdfで選択Reportの日本語PDFを生成し、FrontendがBlobとして取得してBrowser Downloadを開始する。","1. frontend/src/features/reports/components/PdfDownloadButton.tsx
+・Report ID、Pending、Disabled、Error Tooltipを管理する。
+2. frontend/src/features/reports/api/download-report-pdf.ts
+・fetchでPDF Responseを取得し、Filenameを解決してDownloadする。
+3. frontend/src/lib/api/client.ts
+・buildApiUrlを利用する。PDF取得自体はdownload-report-pdf.tsがfetchを直接使用する。
+4. frontend/src/lib/api/paths.ts
+・apiPaths.reportPdf(id)を提供する。
+5. backend/src/api/v1/reports.py
+・download_report_pdf Endpointを提供する。
+6. backend/src/services/report_pdf_service.py
+・ReportとSource CSVからPDFを生成する。
+7. backend/src/repositories/report_repository.py
+・Reportを取得する。","1. PdfDownloadButton.handleDownload
+・downloadReportPdf(reportId)を呼びPendingを管理する。
+2. downloadReportPdf
+・buildApiUrl(apiPaths.reportPdf(id))へGETしBlobを取得する。
+3. download_report_pdf
+・ReportPdfService.generateを呼ぶ。
+4. ReportPdfService.generate
+・Report、CSV、ChartからPDF Bytesを生成する。
+5. HTTP Response
+・application/pdfとContent-Dispositionを返す。
+6. Browser Download
+・Object URLと一時Anchorで保存し、finallyでURLを解放する。","・report_id: UUID Path Parameter","・PDF Binary/Blob
+・Content-Type: application/pdf
+・Content-Disposition Filename","・reportsテーブル
+・uploaded_files情報とSource CSV
+・生成物はResponseとして返し、現行ではPDF Path永続化を前提にしない","・PDFを生成してDownloadを開始する
+・処理中はButtonを無効化し完了後に解除する","・Report/Source CSVなしは404
+・PDF生成失敗は500相当
+・非JSON ErrorはTextまたは既定Messageへ変換する
+・Object URLを必ず解放する","・download-report-pdf.test.ts: Blob、Filename、Fallback、Error、URL解放を確認する
+・pdf-download-button.test.tsx: Disabled、Pending、成功、Errorを確認する
+・test_report_pdf_api.py / test_report_pdf_service.py: 日本語、長文、404、生成失敗を確認する","・PdfDownloadButtonからBackend PDF生成、Blob取得、Browser Download、Pending解除まで確認する","032、033、053、066、069"
+"API-SEARCH-001","RAG検索","POST /api/v1/searchで質問をEmbedding化し、pgvectorのReportChunkを設備、期間、Chunk Typeで絞り込み、Similarity付き検索結果を返す。","1. backend/src/api/v1/search.py
+・search_reportsでRequestをRagSearchServiceへ渡す。
+2. backend/src/schemas/search_schema.py
+・Search Request/Responseを定義する。
+3. backend/src/services/rag_search_service.py
+・Query、Limit、Chunk Type、Date Rangeを検証しEmbedding検索を行う。
+4. backend/src/services/azure_openai_service.py
+・create_embeddingで質問Vectorを生成する。
+5. backend/src/repositories/vector_repository.py
+・search_similarでpgvector検索を行う。
+6. backend/src/models/report_chunk.py
+・Chunk本文、Metadata、VECTOR(1536)を保持する。","1. search_reports
+・Request値をRagSearchService.searchへ渡す。
+2. RagSearchService.search
+・入力検証後に質問Embeddingを生成する。
+3. VectorRepository.search_similar
+・FilterとLimit付きで類似Chunkを検索する。
+4. RagSearchService._to_similarity
+・DistanceをSimilarityへ変換する。
+5. Search Response
+・Chunk内容、Metadata、Similarityを返す。","・query
+・limit
+・equipment_id: 任意
+・date_from/date_to: 任意
+・chunk_types: 任意","・Report Chunk ID
+・Report ID
+・Chunk Type
+・Content
+・Equipment ID
+・Measurement Date
+・Similarity等","・report_chunksテーブルとVECTOR(1536)
+・reportsテーブルの関連Metadata","・質問Embeddingを生成する
+・条件に合うChunkをSimilarity順に返す","・空質問、不正Limit、Chunk Type、Date Rangeを拒否する
+・Embedding失敗、次元不一致、DB失敗をErrorへ変換する
+・該当なしは空Resultsを返す","・test_rag_search_service.py: Query、Limit、Filter、Similarity変換、Embedding失敗を確認する
+・test_vector_repository.py: search_similarとFilterを確認する
+・test_search_api.py: Request/ResponseとError Statusを確認する","・Mock Embeddingまたは承認済み実接続で、APIからpgvector検索とResponseまで確認する","034、035、036、037"
+"API-CHAT-001","AIチャット","POST /api/v1/chatで質問とFilterを受け、LangGraphがRAG検索、Context構築、根拠付き回答生成、Source作成を実行し、FrontendのMessage一覧へ表示する。","1. frontend/src/features/chat/components/AiChatDrawer.tsx
+・Drawer、対象設備・期間、Message、Inputを統合する。
+2. frontend/src/features/chat/components/ChatInput.tsx
+・質問入力、Trim、Enter/Click送信、Disabledを担当する。
+3. frontend/src/features/chat/hooks/useRagChat.ts
+・Message、Status、Error、前回Request Abortを管理する。
+4. frontend/src/features/chat/api/chat.ts
+・sendRagChatでPOST /api/v1/chatを呼ぶ。
+5. frontend/src/features/chat/components/ChatMessageList.tsx
+・Message一覧とPendingを表示する。
+6. frontend/src/features/chat/components/ChatMessage.tsx
+・AnswerとSource Metadataを表示する。
+7. backend/src/api/v1/chat.py
+・chat_with_reportsでRAG Chat Graphを実行する。
+8. backend/src/workflows/graphs/rag_chat_graph.py
+・RagNodesの順序と検索結果有無の分岐を定義する。
+9. backend/src/workflows/nodes/rag_nodes.py
+・検索、Context、回答、根拠なし回答、Source作成を担当する。
+10. backend/src/workflows/states/chat_state.py
+・Chat Graph Stateを定義する。
+11. backend/src/prompts/rag_chat_prompt.py
+・質問とContextからLLM入力を構築する。
+12. backend/src/services/rag_search_service.py
+・根拠Chunkを検索する。
+13. backend/src/services/azure_openai_service.py
+・根拠付き回答を生成する。","1. ChatInput.submit
+・Trim後にAiChatDrawer.handleSendを呼ぶ。
+2. AiChatDrawer.handleSend
+・Filterを付けてuseRagChat.sendへ渡す。
+3. useRagChat.send
+・前回RequestをAbortしUser Messageを追加してsendRagChatを呼ぶ。
+4. sendRagChat
+・POST /api/v1/chatを送る。
+5. chat_with_reports
+・Chat Stateを作りRAG Chat Graphを実行する。
+6. RagNodes
+・Chunk検索、Context構築、回答または根拠なし回答、Source作成を行う。
+7. useRagChat
+・Assistant Messageを追加しStatusをsuccessへ更新する。
+8. ChatMessageList
+・AnswerとSourceを表示する。","・question
+・equipment_id: 任意
+・date_from/date_to: 任意
+・chunk_types: 任意
+・limit等","・answer
+・sources: Report/Chunk/設備/測定日/Similarity等","・report_chunksとpgvectorを参照
+・reports Metadataを参照
+・Chat履歴は現行DBへ保存しない","・User Messageを即時追加する
+・RAG結果を根拠に回答する
+・Assistant MessageとSourceを表示する","・空質問は送らない
+・前回RequestをAbortする
+・根拠なしは専用回答を返す
+・AI/検索失敗をError表示する
+・Prompt Injectionを根拠指示より優先しない","・chat.test.ts: Request/Response/Errorを確認する
+・use-rag-chat.test.ts: send、Abort、成功、Error、resetを確認する
+・chat-input/message/list Test: 操作、Pending、Source表示を確認する
+・test_rag_chat_workflow.py / test_chat_api.py: Graph分岐、根拠あり/なし、Source、Errorを確認する","・ChatInputからFrontend Hook/API、Backend Graph、RAG/AI、Message/Source表示まで確認する","025、026、034、035、036、038、039、054、057、062、063、064、065"
+"FLOW-DASHBOARD-001","Dashboard初期表示・更新","Dashboard RouteでReport一覧を取得し、選択Reportの保存CSVからMeasurementを取得してSummary、Chart、Report一覧を表示する。CSV分析成功後はReport一覧とMeasurementを再取得する。","1. frontend/src/app/(dashboard)/page.tsx
+・Dashboard Routeの入口としてDashboardContentを表示する。
+2. frontend/src/features/dashboard/components/DashboardContent.tsx
+・Report一覧、選択Report、Measurement、Modal、Drawer、再読込を統合する。
+3. frontend/src/features/reports/api/get-reports.ts
+・Report一覧を取得する。
+4. frontend/src/features/dashboard/hooks/useMeasurements.ts
+・選択ReportのMeasurementを取得する。
+5. frontend/src/features/dashboard/components/DashboardHeader.tsx
+・Titleと操作入口を表示する。
+6. frontend/src/features/dashboard/components/MonitoringSummary.tsx
+・選択Reportの分析KPIを表示する。
+7. frontend/src/features/dashboard/components/VibrationChart.tsx
+・保存CSV由来の時系列値を表示する。
+8. frontend/src/features/reports/components/ReportList.tsx
+・Report一覧を表示する。
+9. frontend/src/features/analysis/components/CsvUploadModal.tsx
+・CSV分析入口を提供する。
+10. frontend/src/features/reports/components/ReportDetailModal.tsx
+・選択Report詳細を表示する。
+11. frontend/src/features/chat/components/AiChatDrawer.tsx
+・RAG Chat入口を提供する。","1. Dashboard Page
+・DashboardContentをRenderする。
+2. DashboardContent.initialize/loadReports
+・Report一覧を取得して対象Reportを選択する。
+3. DashboardContent.displayReport
+・分析情報を表示しuseMeasurements.loadを呼ぶ。
+4. Measurement API
+・選択Reportのuploaded_file_idに対応するCSVから時系列を返す。
+5. DashboardContent
+・Summary、Chart、ListへDataを渡す。
+6. CSV分析成功
+・生成Reportを優先選択して一覧とMeasurementを更新する。","・Backend Base URL
+・Report一覧
+・利用者の選択・Modal/Drawer操作","・Report一覧
+・選択Report詳細
+・保存CSV由来Measurement
+・Summary/Chart
+・Modal/Drawer状態","・reports、uploaded_files、report_chunksを参照
+・Measurementはdata/uploadsのCSVから読込
+・CSV分析時にUploadedFile、Report、Chunkを保存","・Report一覧取得後に先頭または指定Reportを表示する
+・CSV生成成功後に最新Reportへ更新する","・Report一覧失敗とMeasurement失敗を分けて表示する
+・空一覧ではDataなし表示を維持する
+・処理中の多重操作を防ぐ","・個別API、Hook、子Component Testで各責務を確認する
+・DashboardContent、複合Modal、Chartの専用Testは今後の追加対象とする","・ダミーCSVで初期表示、分析生成、一覧更新、詳細、PDF、Chatまでを手動SmokeまたはE2Eで確認する","043、049、052、055、061、065、068、069、071、072、073、074、090"
+"FLOW-QUALITY-001","Frontend品質検証","ESLint、TypeScript、Vitest、Next.js Production Build、V8 Coverage Gateを実行し、Frontend変更の品質低下を検出する。","1. frontend/package.json
+・lint、type-check、test:run、test:coverage、check Scriptを定義する。
+2. frontend/eslint.config.mjs
+・Lint Ruleと除外を定義する。
+3. frontend/tsconfig.json
+・TypeScriptとPath Aliasを定義する。
+4. frontend/vitest.config.mts
+・jsdom、Setup、vmThreads、Coverage、Thresholdを定義する。
+5. frontend/tests/setup.ts
+・jest-domと共通Setupを適用する。
+6. frontend/tests/unit/**/*.test.ts(x)
+・API、Hook、Component Testを格納する。","1. npm run check
+・lint→type-check→test:run→buildを順に実行する。
+2. npm run test:coverage
+・vmThreads、maxWorkers=1、no-isolateでCoverageを実行する。
+3. Coverage Gate
+・Statements 40、Branches 35、Functions 30、Lines 40以上を確認する。","・Frontend Source、設定、Test","・ESLint/TypeScript/Test/Build結果
+・Coverage 4指標
+・Process Exit Code","frontend/coverageへ生成。Git/ESLint対象外。","・24 Test Files、141 Tests、Build、Coverage Gateが成功する","・いずれか失敗またはThreshold未達で非0終了する","・各API、Hook、Component Testで正常、異常、境界、State、Accessibilityを確認する","・Coverage実行後にもnpm run checkが成功することを確認する","075、076、077、078、079、080、081、082、083、084"
+"FLOW-MAC-001","Mac環境構築・疎通","【今後対応・未完了】Mac利用者がGitHubからCloneし、Docker、Python、Node、環境変数、Migration、Backend、Frontend、Testを再現する。README、QUICKSTART、setup.shは現行Source Bundleに存在しない。","1. .env.example / frontend/.env.example
+・必要な環境変数名をSecretなしで共有する。
+2. docker-compose.yml
+・PostgreSQL/pgvectorを同一構成で起動する。
+3. backend/requirements.txt
+・Python依存を導入する。
+4. frontend/package.json / frontend/package-lock.json
+・Node依存と品質Scriptを再現する。
+5. alembic.ini
+・Migration設定を保持する。
+6. backend/migrations/env.py
+・Alembic環境を定義する。
+7. backend/migrations/versions/15a61de1c13e_create_initial_four_tables.py
+・初期Schemaを適用する。
+8. README.md / QUICKSTART.md / scripts/setup.sh
+・今後作成するMac向け手順・自動化。","1. git clone
+・Repositoryを取得する。
+2. 環境変数作成
+・exampleからローカル設定を作りSecretを別経路で設定する。
+3. docker compose up
+・PostgreSQL/pgvectorを起動する。
+4. Python環境
+・python3 -m venvとpip installを行う。
+5. Migration
+・alembic upgrade headを実行する。
+6. Frontend環境
+・npm ciを実行する。
+7. 起動・品質確認
+・Backend/Frontend起動、Test、ダミーCSV Smokeを行う。","・GitHub Repository
+・Secret
+・Docker Desktop
+・Python 3
+・Node.js/npm","・起動済みDB/Backend/Frontend
+・Migration結果
+・Test結果
+・Smoke結果","・PostgreSQL Volume
+・ローカル.env
+・data/uploads
+・.venv/node_modulesはローカル生成","・クリーンなMacで手順どおり起動できる","・PowerShell固有Command、Path、python3、LF、実行権限差を解消する
+・未作成手順Fileを先に整備する","・設定、Migration、依存Version、Script構文を確認する","・実MacでCloneから品質検証とダミーCSV Flowまで確認する","007、008、009、010、011、012、015、042、088、089、090"
